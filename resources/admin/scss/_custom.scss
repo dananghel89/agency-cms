@@ -1,0 +1,19 @@
+// Helpers classes
+
+.hidden {
+  display: none;
+}
+
+.no-resize {
+  resize: none;
+}
+
+// Admin elements
+
+.card-wrapper {
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: 800px;
+  position: relative;
+}

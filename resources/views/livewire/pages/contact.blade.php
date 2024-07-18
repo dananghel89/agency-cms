@@ -1,0 +1,112 @@
+<?php
+
+use Livewire\Volt\Component;
+use App\Models\Contact;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\ContactForm;
+
+new class extends Component
+{
+    public $name;
+    public $email;
+    public $phone;
+    public $message;
+
+    public function submit()
+    {
+        $validated = $this->validate([
+            'name' => ['required', 'string', 'max:100'],
+            'email' => ['required', 'string', 'lowercase', 'email', 'max:255'],
+            'phone' => ['required', 'numeric', 'digits:9'],
+            'message' => ['required', 'string', 'min:5', 'max:300'],
+        ]);
+
+        $contact = Contact::create($validated);
+
+        if ($contact->wasRecentlyCreated) {
+            $this->sendMail();
+            $this->reset(['name', 'email', 'phone', 'message']);
+
+            $this->dispatch('contact-success');
+        } else {
+            $this->dispatch('contact-failure');
+        }
+    }
+
+    public function sendMail()
+    {
+        $adminEmail = option('admin_email');
+
+        if (empty($adminEmail)) return;
+
+        Mail::to($adminEmail)->send(new ContactForm(
+            $this->name, $this->email, $this->phone, $this->message
+        ));
+    }
+}; ?>
+
+<!-- Contact -->
+<section class="page-section" id="contact">
+    <div class="container">
+        <div class="text-center">
+            <h2 class="section-heading text-uppercase">{{ __('Contact Us') }}</h2>
+            <h3 class="section-subheading text-white">{{ __('Lorem ipsum dolor sit amet consectetur.') }}</h3>
+        </div>
+        <form id="contactForm" wire:submit="submit">
+            <div class="row align-items-stretch mb-5">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <input
+                            type="text" class="form-control" id="name" placeholder="{{ __('Your Name *') }}"
+                            name="name" wire:model="name" autocomplete="name" required
+                        >
+                        <x-common.feedback-invalid :messages="$errors->get('name')" />
+                    </div>
+                    <div class="form-group">
+                        <input
+                            type="email" class="form-control" id="email" placeholder="{{ __('Your Email *') }}"
+                            name="email" wire:model="email" autocomplete="email" required
+                        >
+                        <x-common.feedback-invalid :messages="$errors->get('email')" />
+                    </div>
+                    <div class="form-group mb-md-0">
+                        <input
+                            type="tel" class="form-control" id="phone" placeholder="{{ __('Your Phone *') }}"
+                            name="phone" wire:model="phone" autocomplete="tel" required
+                        >
+                        <x-common.feedback-invalid :messages="$errors->get('phone')" />
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group form-group-textarea mb-md-0">
+                        <textarea
+                            class="form-control no-resize" id="message" placeholder="{{ __('Your Message *') }}"
+                            name="message" wire:model="message" required
+                        ></textarea>
+                        <x-common.feedback-invalid :messages="$errors->get('message')" />
+                    </div>
+                </div>
+            </div>
+
+            <x-common.message-flash on="contact-success">
+                <div id="submitSuccessMessage">
+                    <div class="text-center text-white mb-3">
+                        <div class="fw-bolder">{{ __('Form submission successful!') }}</div>
+                    </div>
+                </div>
+            </x-common.message-flash>
+
+            <x-common.message-flash on="contact-failure">
+                <div id="submitErrorMessage">
+                    <div class="text-center text-danger mb-3">
+                        {{ __('Error sending message!') }}
+                    </div>
+                </div>
+            </x-common.message-flash>
+
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary btn-xl text-uppercase" id="submitButton">{{ __('Send Message') }}</button>
+            </div>
+        </form>
+    </div>
+</section>
