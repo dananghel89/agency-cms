@@ -1,8 +1,8 @@
 {
-    "name": "laravel/laravel",
+    "name": "dananghel89/agency-cms",
     "type": "project",
-    "description": "The skeleton application for the Laravel framework.",
-    "keywords": ["laravel", "framework"],
+    "description": "A small Laravel CMS for a one-page agency website.",
+    "keywords": ["laravel", "cms", "livewire", "agency"],
     "license": "MIT",
     "require": {
         "php": "^8.1",

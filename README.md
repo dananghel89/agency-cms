@@ -39,4 +39,4 @@ Tests run on an in-memory SQLite database (see `phpunit.xml`), so they never tou
 
 ## Credits
 
-The admin and public themes are based on [SB Admin 2](https://startbootstrap.com/theme/sb-admin-2) and [Agency](https://startbootstrap.com/theme/agency) by Start Bootstrap, licensed under MIT.
+The admin and public themes are based on [SB Admin 2](https://startbootstrap.com/theme/sb-admin-2) and [Agency](https://startbootstrap.com/theme/agency) by Start Bootstrap, licensed under MIT. This project is not affiliated with Start Bootstrap LLC.
