@@ -56,7 +56,7 @@ class OptionsTest extends TestCase
         Options::query()->delete();
 
         $this->optionsComponent()
-            ->assertSet('site_title', config('sb.options.site_title'))
+            ->assertSet('site_title', config('project.options.site_title'))
             ->set('site_title', 'New Title')
             ->set('admin_email', 'owner@example.com')
             ->set('social_links', ['facebook' => 'https://www.facebook.com/agency', 'twitter' => ''])

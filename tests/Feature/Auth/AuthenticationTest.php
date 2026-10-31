@@ -32,6 +32,20 @@ class AuthenticationTest extends TestCase
         $this->assertAuthenticatedAs($user);
     }
 
+    public function test_remember_me_stores_a_remember_token(): void
+    {
+        $user = User::factory()->create(['remember_token' => null]);
+
+        Volt::test('auth.login')
+            ->set('form.email', $user->email)
+            ->set('form.password', 'password')
+            ->set('form.remember', true)
+            ->call('login')
+            ->assertHasNoErrors();
+
+        $this->assertNotNull($user->fresh()->remember_token);
+    }
+
     public function test_users_can_not_authenticate_with_invalid_password(): void
     {
         $user = User::factory()->create();

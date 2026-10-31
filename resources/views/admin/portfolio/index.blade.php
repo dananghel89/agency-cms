@@ -37,7 +37,7 @@
                             <td>{{ Str::of($portfolio->content)->limit(40, ' [...]') }}</td>
                             <td>{{ $portfolio->client }}</td>
                             <td>{{ $portfolio->category }}</td>
-                            <td>{{ $portfolio->created_at->format(config('sb.date_format')) }}</td>
+                            <td>{{ $portfolio->created_at->format(config('project.date_format')) }}</td>
                             <td class="text-center">
                                 @php
                                     $actions = [

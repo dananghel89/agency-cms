@@ -122,7 +122,7 @@ The admin list columns are updated to show the new fields: a thumbnail for image
    - `slug` required, `alpha_dash`, max 255, unique (ignoring the current page). It is generated from the title (`Str::slug`) until edited by hand, and some slugs are reserved: `admin`, `login`, `forgot-password`, `reset-password`, `livewire`, `up`, `storage`, `api`.
    - `description` nullable, max 300; used as the meta description
    - `content` Markdown, nullable, max 50 000
-   - `template` must exist in `config('sb.page_templates')`, initially `['default' => 'Default']`
+   - `template` must exist in `config('project.page_templates')`, initially `['default' => 'Default']`
    - `status`
    - The Markdown preview is a Livewire computed property. Show it in a side-by-side or tabbed layout.
 2. **Rendering:** `Str::markdown($page->content, ['html_input' => 'strip', 'allow_unsafe_links' => false])`. Only this output is printed unescaped. Test that `<script>` and `javascript:` links are removed.
@@ -144,7 +144,7 @@ The admin list columns are updated to show the new fields: a thumbnail for image
 
 1. Migration `create_clients_table`: `name`, `url` nullable, `image`, `position` (unsigned tinyint), `status` (`publish|draft`), timestamps. Model `Client` with `HasImage` and `HasPublishStatus`.
 2. Admin:
-   - sidebar entry `['clients', 'Clients', 'handshake', 'interface', 'clients.index']` in `config/sb.php`
+   - sidebar entry `['clients', 'Clients', 'handshake', 'interface', 'clients.index']` in `config/project.php`
    - resource routes and controller
    - list and form: `name` required · `url` nullable `url` · `image` **required on create**, `image|mimes:jpg,jpeg,png,webp|max:1024`
 3. **SVG:** admin uploads are raster-only: jpg/png/webp (decided 2026-10-31). An uploaded SVG can carry scripts when opened directly from the same domain. `ClientSeeder` seeds **in-house placeholder logos** (simple SVGs made for this project, e.g. "Client A"–"Client D"; trusted, so SVG is fine). **Never real company logos**: the licensing plan removed the Microsoft/Google/Facebook/IBM logos as trademarks. Real client logos are uploaded later by the site owner, who must have the client's permission.
@@ -154,7 +154,7 @@ The admin list columns are updated to show the new fields: a thumbnail for image
 
 ### Phase 6 – Editable home page texts (Options)
 
-1. New option keys with defaults in `config('sb.options')`. The defaults equal today's hard-coded texts, so **nothing changes visually** until edited:
+1. New option keys with defaults in `config('project.options')`. The defaults equal today's hard-coded texts, so **nothing changes visually** until edited:
 
    | Key | Default (current text) |
    |---|---|
@@ -199,13 +199,13 @@ The admin list columns are updated to show the new fields: a thumbnail for image
 
 1. **Loader:** `App\Translation\DatabaseOverrideLoader` implements `Illuminate\Contracts\Translation\Loader` and decorates the file loader, so its `addNamespace`, `addJsonPath` and `namespaces` simply pass through.
    - For JSON lookups (`group = '*'`, `namespace = '*'`) it merges `Translation::pluck('replace', 'key')` over the file lines.
-   - Results are cached with `Cache::rememberForever('sb.translations')`.
+   - Results are cached with `Cache::rememberForever('project.translations')`.
    - A `QueryException` (fresh DB, table missing) returns `[]`, so artisan commands and the first migration never break.
 2. **Registration:** in `AppServiceProvider::register()`:
    ```php
    $this->app->extend('translation.loader', fn ($loader) => new DatabaseOverrideLoader($loader));
    ```
-3. **Cache invalidation:** the `Translation` model clears `sb.translations` on `saved` and `deleted`.
+3. **Cache invalidation:** the `Translation` model clears `project.translations` on `saved` and `deleted`.
 4. **Admin hint:** the Strings form explains that **Key** must match the original text exactly (e.g. `Contact Us`, `Send Message`, including `:placeholders`). The Strings list shows where a key is used, if that's feasible; otherwise just the hint.
 5. Tests: an override changes the output of `__('Contact Us')` on the home page; updating the string takes effect immediately (cache cleared); a missing table doesn't throw.
 

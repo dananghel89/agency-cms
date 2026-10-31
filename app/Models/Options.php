@@ -18,8 +18,8 @@ class Options extends Model
     public static function userEmails(): Collection
     {
         return collect([
-            'admin' => config('sb.seed.admin_email'),
-            'editor' => config('sb.seed.editor_email'),
+            'admin' => config('project.seed.admin_email'),
+            'editor' => config('project.seed.editor_email'),
         ]);
     }
 

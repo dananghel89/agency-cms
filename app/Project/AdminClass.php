@@ -11,7 +11,7 @@ class AdminClass
 
     public function __construct(?array $array = null)
     {
-        $array = $array ?: config('sb.sidebar_nav');
+        $array = $array ?: config('project.sidebar_nav');
 
         $this->setItems($array);
     }

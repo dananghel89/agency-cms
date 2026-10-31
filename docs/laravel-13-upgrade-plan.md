@@ -13,7 +13,7 @@ Created: 2026-10-30 · Revised: 2026-10-30 (all optional items included) · Revi
 | Target PHP | **PHP 8.4** (8.4.26 in WAMP). Laravel 13 requires PHP ≥ 8.3, so it cannot run on 8.1 |
 | App structure | **Migrate to the slim Laravel 11+ structure** (`bootstrap/app.php`, `bootstrap/providers.php`, no Kernels) |
 | Tests | The app's own suite on **SQLite in-memory**, delivered by the review plan, is the safety net for every phase. Only the Livewire 4 phase changes it (`Volt::test` → `Livewire::test`) |
-| Helpers / options | Already fixed by the review plan (`autoload.files`, lazy `sb.options` singleton) |
+| Helpers / options | Already fixed by the review plan (`autoload.files`, lazy `project.options` singleton) |
 | Livewire | **Upgrade Livewire 3 → 4** and **remove Volt**: Volt components become native Livewire 4 single-file components |
 | Frontend | **Upgrade the Vite toolchain** (Vite 4 → 8, laravel-vite-plugin 0.8 → 3.x, Sass to latest 1.x) |
 | Out of scope | Bootstrap 4/5 version bumps; migrating SCSS `@import` to `@use`; building the empty admin create/edit screens (planned in [finish-project-plan.md](finish-project-plan.md), after this upgrade) |
@@ -100,7 +100,7 @@ The former Phase 1 (helpers fix, lazy options, SQLite test suite) is now part of
 1. `master` contains the finished review plan.
 2. `phpunit.xml` uses SQLite in-memory. **Never run the tests before this is true**: with MySQL configured, `RefreshDatabase` wipes the local DB.
 3. `php81 artisan test` → **all green on Laravel 10**. This is the reference for every later phase.
-4. `composer.json` has `"files": ["app/Project/Helpers.php"]`. `option()` reads the lazy `sb.options` singleton. Neither helper name (`option`, `parse_args`) conflicts with the global functions that Laravel 13's `symfony/polyfill-php85` adds (`array_first`, `array_last`).
+4. `composer.json` has `"files": ["app/Project/Helpers.php"]`. `option()` reads the lazy `project.options` singleton. Neither helper name (`option`, `parse_args`) conflicts with the global functions that Laravel 13's `symfony/polyfill-php85` adds (`array_first`, `array_last`).
 5. The tests use `test_*` names and PHP attributes (no doc-comment annotations), so they run on PHPUnit 10–12.
 
 ### Phase 2 – PHP 8.4 CLI readiness (no project changes)
@@ -205,7 +205,7 @@ Use the `laravel/laravel` v13 skeleton as the reference ([compare 10.x…13.x](h
    - `app/Http/Middleware/*` (all 9 files). The only customization was `RedirectIfAuthenticated` → `dashboard`, now handled in `bootstrap/app.php`. The `TrimStrings` except-list equals the framework default.
    - `app/Providers/AuthServiceProvider.php` (no policies), `EventServiceProvider.php` (only `Registered → SendEmailVerificationNotification`, which Laravel 11+ auto-registers), `RouteServiceProvider.php` (`HOME` constant, `api` rate limiter and route loading move to `bootstrap/app.php`), `BroadcastServiceProvider.php`.
    - `tests/CreatesApplication.php`. Update `tests/TestCase.php` to the L13 version, which has no trait.
-4. **`config/`**: replace the framework config files with the L13 versions (`php artisan config:publish --all --force`, then review the diff). Re-apply project values where they differ, and delete any config file that ends up identical to the framework default (L11+ falls back to the framework's). Keep `config/sb.php`, `config/livewire.php` and `config/debugbar.php`.
+4. **`config/`**: replace the framework config files with the L13 versions (`php artisan config:publish --all --force`, then review the diff). Re-apply project values where they differ, and delete any config file that ends up identical to the framework default (L11+ falls back to the framework's). Keep `config/project.php`, `config/livewire.php` and `config/debugbar.php`.
    - `config/app.php`: the `providers` and `aliases` arrays go away.
    - `config/database.php`: keep MySQL `utf8mb4` / `utf8mb4_unicode_ci` so new tables match the existing ones. Set `DB_CHARSET`/`DB_COLLATION` in `.env` if the L13 defaults differ.
 5. **`.env` / `.env.example`** renames:

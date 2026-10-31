@@ -7,7 +7,7 @@
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <meta name="description" content="@yield('description')">
 
-        <title>@yield('title') | {{ config('sb.admin_title') }}</title>
+        <title>@yield('title') | {{ config('project.admin_title') }}</title>
 
         <!-- Favicon -->
         <link rel="icon" href="{{ asset('favicon.ico') }}" sizes="48x48">

@@ -127,7 +127,7 @@ Replace every visible "Start Bootstrap" / "SB Admin" name with **Agency CMS**:
 | Where | Change |
 |---|---|
 | `.env.example`, your local `.env` | `APP_NAME="Agency CMS"` |
-| `config/sb.php` | `admin_title` → `'Agency CMS Admin'`; `options.site_title` default → `'Agency CMS'` |
+| `config/project.php` | `admin_title` → `'Agency CMS Admin'`; `options.site_title` default → `'Agency CMS'` |
 | Local DB | The `options.site_title` row was seeded from `APP_NAME`. Update it in Admin → Options (or reseed) |
 | `resources/views/components/navbar.blade.php` | Replace `<img navbar-logo.svg>` with a **text logo**: `{{ option('site_title') }}` in the brand style (font and colour via SCSS). It's editable and needs no image. Then delete `navbar-logo.svg` |
 | `composer.json` | `"name": "dananghel89/agency-cms"`, real `description`, `"license": "MIT"` |

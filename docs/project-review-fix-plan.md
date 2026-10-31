@@ -1,6 +1,6 @@
 # Project review and fix plan
 
-Status: **In progress** – Phase A done (af5bcff), Phase B done (ea14f30), Phase C done (8d5bb0a), Phase D done (d02f8ca, checked in the browser), Phase E done
+Status: **Done** – Phase A (af5bcff), B (ea14f30), C (8d5bb0a), D (d02f8ca), E (68af811), F (checked in the browser), G (wrap-up commit)
 Created: 2026-10-31
 Runs **first**. Then [theme-licensing-plan.md](theme-licensing-plan.md), then [github-migration-plan.md](github-migration-plan.md), then [laravel-13-upgrade-plan.md](laravel-13-upgrade-plan.md), then [finish-project-plan.md](finish-project-plan.md). The upgrade plan's Phase 1 (helpers fix, lazy options, test suite) moved into this plan.
 
@@ -77,7 +77,7 @@ Two suspicions were checked and **dropped** because they turned out not to be bu
 | R23 | Mail | `mail/contact-form.blade.php:4` | Prints literal quotes: `**Subject:** 'New contact message'` | Code |
 | R24 | Admin › Lists | `admin/{strings,services,pages,…}/index.blade.php` | Copy-pasted card header "All Contacts" on non-contact lists (hidden with `d-none`, but wrong) | Code |
 | R25 | Public › Layout | `layouts/app.blade.php:35` | Loads `jquery.slim`, which neither Bootstrap 5 nor the agency scripts use | Code |
-| R26 | Seeders | `database/seeders/*`, `Options::userEmails()` | Rows are inserted without `updated_at`; dead code `unset($item['array'])` in `OptionsSeeder`; admin credentials (`admin@example.com` / `password`) are hard-coded | Code |
+| R26 | Seeders | `database/seeders/*`, `Options::userEmails()` | Rows are inserted without `updated_at`; dead code `unset($item['array'])` in `OptionsSeeder`; the admin credentials (a personal email and password) are hard-coded | Code |
 | R27 | Admin › Views | `resources/views/admin/porfolio/` | Folder name typo (`porfolio`) | Code |
 | R28 | Dead code | `string.blade.php` (`$delete` branch, `//` placeholder), `contact.blade.php` (`wasRecentlyCreated` else-branch can't happen), unused imports (`RouteServiceProvider` in login and `VerifyEmailController`, `View` in `PageController`) | Unreachable or unused code | Code |
 | R29 | Code style | 24 files | `pint --test` (Laravel preset) flags unused/unordered imports, brace placement, spacing | Reproduced |
@@ -95,13 +95,13 @@ All Blade views compile (`php81 artisan view:cache` succeeded), so there are no 
 4. **R03:** make options lazy.
    - In `AppServiceProvider::register()`:
      ```php
-     $this->app->singleton('sb.options', fn () => parse_args(
+     $this->app->singleton('project.options', fn () => parse_args(
          Options::query()->pluck('value', 'name')->all(),
-         config('sb.options')
+         config('project.options')
      ));
      ```
    - Remove the `$GLOBALS['options']` block from `boot()`.
-   - `option()` reads `data_get(app('sb.options'), $name)` and keeps `$decode`.
+   - `option()` reads `data_get(app('project.options'), $name)` and keeps `$decode`.
 5. Check: `DB_CONNECTION=sqlite DB_DATABASE=:memory: php81 artisan migrate:status` no longer throws `no such table: options`, and the WAMP site works exactly as before.
 
 ### Phase B – Test suite for the current, correct behaviour (R05)
@@ -159,7 +159,7 @@ Each item: add a failing test → fix → green.
 | R23 | Mail template: remove the quotes |
 | R24 | Correct the card headers ("All Strings", "All Services", …) |
 | R25 | Comment out (not remove) `jquery.slim` in `layouts/app.blade.php`; check the public site (navbar collapse, scrollspy, portfolio modals) |
-| R26 | Seeders: set `updated_at`; remove the dead `unset`. Move the admin login and emails to `.env` with **neutral defaults** (needed for the public GitHub repo):<br>- `SEED_ADMIN_EMAIL` (default `admin@example.com`) and `SEED_ADMIN_PASSWORD` (default `password`)<br>- `SB_ADMIN_EMAIL` for `config('sb.options.admin_email')`, default `admin@example.com`<br>- `Options::userEmails()` reads the same settings<br>Document the keys in `.env.example`, and put your real values only in your local `.env`. Update the seeded-login note in `CLAUDE.md` |
+| R26 | Seeders: set `updated_at`; remove the dead `unset`. Move the admin login and emails to `.env` with **neutral defaults** (needed for the public GitHub repo):<br>- `SEED_ADMIN_EMAIL` (default `admin@example.com`) and `SEED_ADMIN_PASSWORD` (default `password`)<br>- `SB_ADMIN_EMAIL` for `config('project.options.admin_email')`, default `admin@example.com`<br>- `Options::userEmails()` reads the same settings<br>Document the keys in `.env.example`, and put your real values only in your local `.env`. Update the seeded-login note in `CLAUDE.md` |
 | R27 | Rename `admin/porfolio` → `admin/portfolio` and update `PortfolioController` |
 | R28 | Remove the dead code and unused imports listed in R28 |
 | R30 | Replace the README with a short project README (what it is, requirements, setup, `php81` commands, test command, seeded login note) |
@@ -191,7 +191,7 @@ Each item: add a failing test → fix → green.
 
 1. Update `CLAUDE.md`:
    - tests run on SQLite in-memory (safe)
-   - `option()` uses the lazy `sb.options` singleton
+   - `option()` uses the lazy `project.options` singleton
    - helpers are loaded via `autoload.files`
    - remove the fixed quirks (helpers case, `porfolio`, stale tests)
 2. Mark the upgrade plan's Phase 1 as done by this plan (already reflected there).
@@ -205,6 +205,7 @@ Add any new findings here (ID, location, problem, decision). Fix them only if th
 |---|---|---|---|
 | N01 | `components/social-links.blade.php` (public home, Team + footer) | Links are escaped, but a `javascript:` URL saved as a social link would still be clickable on the public site (the admin list was fixed in R12) | Fix together with R20 in Phase D: render only `http(s)` URLs |
 | N02 | `RouteServiceProvider::HOME` | Points to `/dashboard`, which doesn't exist; it's unused (redirects use `route('dashboard')`) | Remove with the R28 dead-code cleanup in Phase D |
+| N03 | `config/sb.php` | The name ties project settings to the old "SB" theme | Renamed to `config/project.php` (and the `sb.options` singleton to `project.options`) in Phase G, at your request |
 
 ## 6. Backlog (unfinished features – not part of this plan)
 

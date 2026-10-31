@@ -31,7 +31,7 @@
                         <tr>
                             <td>{{ $user->name }}</td>
                             <td>{{ $user->email }}</td>
-                            <td>{{ $user->created_at->format(config('sb.date_format')) }}</td>
+                            <td>{{ $user->created_at->format(config('project.date_format')) }}</td>
                             <td class="text-center">
                                 @php
                                     $actions = [

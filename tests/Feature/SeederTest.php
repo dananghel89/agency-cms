@@ -16,9 +16,9 @@ class SeederTest extends TestCase
     public function test_the_admin_login_and_email_come_from_config(): void
     {
         config([
-            'sb.seed.admin_email' => 'boss@example.com',
-            'sb.seed.admin_password' => 'secret-pass',
-            'sb.options.admin_email' => 'inbox@example.com',
+            'project.seed.admin_email' => 'boss@example.com',
+            'project.seed.admin_password' => 'secret-pass',
+            'project.options.admin_email' => 'inbox@example.com',
         ]);
 
         $this->seed();

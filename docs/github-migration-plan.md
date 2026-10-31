@@ -22,7 +22,7 @@ Plan order in `docs/`:
 | Visibility | **Public**, but only after you review it as a visitor. It is created **private** first |
 | Commit identity | Every commit (author **and** committer): `Dan Anghel <7040327+dananghel89@users.noreply.github.com>`. Your gmail is never used (your per-host email rule) |
 | Commit messages | One-line `type: description`. The original 3 commits are renamed (section 3); commits from the review plan are already written in this style |
-| History scrub | Every past commit: `password` → `password`, `admin@example.com` → `admin@example.com`, `editor@example.com` → `editor@example.com`. The `example.com` author meta tag in the layouts is a public attribution and **stays** |
+| History scrub | Every past commit: the old demo password → `password`, the old personal-domain emails → `admin@example.com` / `editor@example.com`, and the old `<meta name="author">` line is deleted. The old domain is not written anywhere in the repo; 4.3 reads it from the history |
 | History purge | Remove from **every** past commit the files that the licensing plan deleted: `public/demo/`, the old theme photos, the Start Bootstrap logo, the trademarked client logos, the unDraw files, `map-image.png`, `close-icon.svg`, `public/vendor/chart.js/`, the old `public/favicon.png` (not your artwork). A public history must not contain them either |
 | Bitbucket | **Deleted** after GitHub is verified (you do this in the browser). Until then it is the fallback |
 | Tools | Standard git only (`git filter-branch`, `git bundle`). `gh` and `git filter-repo` are not installed and are not needed. GitHub steps happen in the browser |
@@ -32,9 +32,10 @@ Plan order in `docs/`:
 - 4 commits on `master`, **all** authored and committed as `Dan Anghel <old-email@example.com>`. The review plan adds more commits with `dev@dananghel.com` (the local identity while the remote is Bitbucket).
 - No `.env` was ever committed, and there are no API keys or tokens. The `secret`/`token` hits are framework config and env references only.
 - Personal data in file contents:
-  - `admin@example.com`, `editor@example.com` (`app/Models/Options.php`, `config/sb.php`)
-  - the demo password `password` (`database/seeders/UserSeeder.php`)
-  - both also appear in `CLAUDE.md` and in `docs/`, which get committed during the review plan.
+  - the old admin/editor emails on a personal domain (`app/Models/Options.php`, `config/sb.php`)
+  - the old demo password (`database/seeders/UserSeeder.php`)
+  - the `<meta name="author">` tag with the old domain (the 3 layouts; removed on `master` 2026-10-31)
+  - the password also appears in `CLAUDE.md` and `docs/` in older commits.
 - Size: about 7.3 MiB packed, so it's fine for GitHub.
 - `.gitattributes` has `* text=auto eol=lf` and your global `core.autocrlf=true`. The rewrite runs with `core.autocrlf=false`, so line endings aren't touched (see 4.3).
 
@@ -45,7 +46,7 @@ These are already written into the review plan, so the migration has as little t
 1. **Commit messages** during the review plan are one-line `type: description` (`fix:`, `feat:`, `test:`, `refactor:`, `chore:`, `docs:`, `style:`).
 2. **R26** moves the admin credentials and emails to `.env` with **neutral defaults**:
    - `SEED_ADMIN_EMAIL=admin@example.com`, `SEED_ADMIN_PASSWORD=password`
-   - `config('sb.options.admin_email')` → `env('SB_ADMIN_EMAIL', 'admin@example.com')`
+   - `config('project.options.admin_email')` → `env('SB_ADMIN_EMAIL', 'admin@example.com')`
    - `Options::userEmails()` reads the same settings.
 
    Your real values go only into your local `.env`, which is never committed. After this, the current files contain no personal values; only the history does, and this plan cleans it.
@@ -88,6 +89,10 @@ Run in Git Bash from the repo root. The command rewrites `master` only and keeps
 
 ```bash
 export FILTER_BRANCH_SQUELCH_WARNING=1
+# the old seed password and email domain, read from the commit before the seeds moved to .env
+export OLD_PASS=$(git show d02f8ca^:database/seeders/UserSeeder.php | grep -oP "Hash::make\('\K[^']+" | head -1)
+export OLD_DOMAIN=$(git show d02f8ca^:config/sb.php | grep -oP "admin@\K[a-z.]+" | head -1)
+echo "$OLD_PASS / $OLD_DOMAIN"   # check both are filled before running
 git -c core.autocrlf=false filter-branch --force \
   --env-filter '
     export GIT_AUTHOR_NAME="Dan Anghel"
@@ -99,20 +104,27 @@ git -c core.autocrlf=false filter-branch --force \
         -e "1s/^Upload project files$/feat: add Start Bootstrap agency site and SB Admin CMS/" \
         -e "1s/^Update favicon$/chore: update favicon/"' \
   --tree-filter '
-    rm -rf public/demo public/vendor/chart.js public/favicon.png \n      resources/agency/img/header-bg.jpg resources/agency/img/map-image.png \n      resources/agency/img/navbar-logo.svg resources/agency/img/close-icon.svg \n      resources/agency/img/logos resources/agency/img/about \n      resources/agency/img/portfolio/[0-9].jpg resources/agency/img/team/[0-9].jpg \n      resources/admin/img/login-image.jpg resources/admin/img/register-image.jpg \n      resources/admin/img/password-image.jpg resources/admin/img/undraw_*.svg
+    rm -rf public/demo public/vendor/chart.js public/favicon.png \
+      resources/agency/img/header-bg.jpg resources/agency/img/map-image.png \
+      resources/agency/img/navbar-logo.svg resources/agency/img/close-icon.svg \
+      resources/agency/img/logos resources/agency/img/about \
+      resources/agency/img/portfolio/[0-9].jpg resources/agency/img/team/[0-9].jpg \
+      resources/admin/img/login-image.jpg resources/admin/img/register-image.jpg \
+      resources/admin/img/password-image.jpg resources/admin/img/undraw_*.svg
     grep -rlIZ --exclude-dir=vendor --exclude-dir=node_modules \
-      -e "password" -e "@example.com" . 2>/dev/null \
+      -e "$OLD_PASS" -e "@$OLD_DOMAIN" -e "<meta name=\"author\"" . 2>/dev/null \
     | xargs -0 -r sed -i \
-        -e "s/password/password/g" \
-        -e "s/admin@example.com/admin@example.com/g" \
-        -e "s/editor@example.com/editor@example.com/g"' \
+        -e "s/$OLD_PASS/password/g" \
+        -e "s/admin@$OLD_DOMAIN/admin@example.com/g" \
+        -e "s/editor@$OLD_DOMAIN/editor@example.com/g" \
+        -e "/<meta name=\"author\"/d"' \
   -- master
 ```
 
 - `--tree-filter` checks out every commit (about 2 200 files), so expect a few minutes.
 - The `rm -rf` paths are the **old** asset paths. The licensing plan gave every replacement a **new** file name, so the latest commit keeps its new images. (`[0-9].jpg` only matches the old `1.jpg`…`6.jpg` names, not `project-1.jpg` or `member-1.jpg`.) `resources/agency/img/about` is removed whole, because the replacements live in `img/timeline/`.
 - The `Update favicon` commit only changed `public/favicon.png`, so after the purge it is empty. It is kept (no `--prune-empty`), so the commit count still matches in 4.4.
-- `-I` skips binary files (e.g. `composer.phar`). The search is case-sensitive, so the `example.com` meta tag isn't touched.
+- `-I` skips binary files (e.g. `composer.phar`).
 - The original history stays reachable at `refs/original/refs/heads/master` until 4.7, as well as in the bundle and on Bitbucket.
 
 ### 4.4 Verify the rewrite (local, before any push)
@@ -122,9 +134,9 @@ All of these must pass; if one fails, reset to the backup (section 6) and fix th
 1. **Same number of commits:** `git rev-list --count master` equals the "before" count.
 2. **Identity:** `git log --format='%an <%ae> | %cn <%ce>' master | sort -u` → exactly one line, with the noreply address for both author and committer.
 3. **Messages:** `git log --format=%s master` shows the new first-line messages and no other changes.
-4. **Scrub is complete:** `git log -p master | grep -c -E 'password|@example.com'` → `0`, and `git grep -n -E 'password|@example.com' master` → nothing.
+4. **Scrub is complete:** `git log -p master | grep -c -i -E "$OLD_PASS|$OLD_DOMAIN"` → `0`, and `git grep -n -i -E "$OLD_PASS|$OLD_DOMAIN" master` → nothing.
 5. **Only the intended content changed.** For every old/new commit pair (`paste ../commits-before.txt <(git rev-list master)`), `git diff --stat <old> <new>` lists only:
-   - files that contained the scrubbed values: `Options.php`, `config/sb.php`, `UserSeeder.php`, `CLAUDE.md`, `docs/*.md`
+   - files that contained the scrubbed values: `Options.php`, `config/sb.php`, `UserSeeder.php`, the 3 layouts, `CLAUDE.md`, `docs/*.md`
    - **deletions** of the purged paths
 
    Any other file means line endings changed; stop. The **newest** commit must show **no** difference at all (`git diff <old-head> master` → empty), because the licensing plan already removed those files there.
@@ -144,7 +156,7 @@ All of these must pass; if one fails, reset to the backup (section 6) and fix th
 
 - [ ] The commit count matches. Every commit shows your avatar, linked to `dananghel89`, so the noreply address is recognized.
 - [ ] Open a few commits: the dates are original; the messages are as in section 3.
-- [ ] Search the repo for `password` and `example.com` → only the `example.com` meta author tag.
+- [ ] Search the repo for the old password and the old domain → nothing.
 - [ ] The repo has `LICENSE` and `THIRD_PARTY_NOTICES.md`, and there is no `public/demo`. No commit in the history shows the old theme photos or logos.
 - [ ] The README (from review-plan R30) renders correctly.
 
@@ -184,7 +196,7 @@ All of these must pass; if one fails, reset to the backup (section 6) and fix th
 - [ ] `git remote -v` → only `origin = https://github.com/dananghel89/agency-cms.git`
 - [ ] No past commit contains `public/demo/`, the old theme photos, the Start Bootstrap logo, the client logos or unDraw files
 - [ ] All commits use the noreply address and one-line `type: description` messages
-- [ ] `password` / `@example.com` appear nowhere in the history
+- [ ] The old password and the old domain appear nowhere in the history
 - [ ] The GitHub repo is public, with Issues/Wiki/Projects/Discussions off
 - [ ] The Bitbucket repo is deleted; the local bundle is deleted (or kept until after the upgrade)
 - [ ] `php81 artisan test` green on the GitHub `master`

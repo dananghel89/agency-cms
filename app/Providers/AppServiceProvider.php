@@ -14,9 +14,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->app->singleton('sb.options', fn () => parse_args(
+        $this->app->singleton('project.options', fn () => parse_args(
             Options::query()->pluck('value', 'name')->all(),
-            config('sb.options')
+            config('project.options')
         ));
     }
 
