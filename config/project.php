@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'admin_title' => 'SB Admin',
+    'admin_title' => 'Agency CMS Admin',
     'date_format' => 'j M Y G:i:s',
 
     'seed' => [
@@ -28,7 +28,7 @@ return [
     'dropdown_nav' => [],
 
     'options' => [
-        'site_title' => 'Start Bootstrap',
+        'site_title' => 'Agency CMS',
         'admin_email' => env('SB_ADMIN_EMAIL', 'admin@example.com'),
         'social_links' => null,
     ],
