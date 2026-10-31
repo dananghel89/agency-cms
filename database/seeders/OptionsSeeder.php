@@ -2,11 +2,10 @@
 
 namespace Database\Seeders;
 
-use Carbon\Carbon;
 use App\Models\Options;
+use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class OptionsSeeder extends Seeder
 {

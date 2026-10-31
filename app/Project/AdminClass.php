@@ -9,7 +9,8 @@ class AdminClass
 {
     public static $items;
 
-    public function __construct(?array $array = null) {
+    public function __construct(?array $array = null)
+    {
         $array = $array ?: config('sb.sidebar_nav');
 
         $this->setItems($array);

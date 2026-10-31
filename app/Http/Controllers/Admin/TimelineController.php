@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Illuminate\View\View;
 use App\Models\Timeline;
+use Illuminate\View\View;
 
 class TimelineController extends BaseController
 {

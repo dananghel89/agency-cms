@@ -30,12 +30,16 @@ class Team extends Model
 
     public function getSocialLinksHtmlAttribute()
     {
-        if (empty($this->social_links)) return;
+        if (empty($this->social_links)) {
+            return;
+        }
 
         $links = [];
 
         foreach ($this->social_links as $name => $link) {
-            if (! is_string($link) || ! preg_match('#^https?://#i', $link)) continue;
+            if (! is_string($link) || ! preg_match('#^https?://#i', $link)) {
+                continue;
+            }
 
             $links[] = sprintf('<a href="%s" target="_blank" rel="noopener">%s</a>', e($link), e($name));
         }
