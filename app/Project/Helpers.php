@@ -5,7 +5,7 @@
  */
 if (!function_exists('option')) {
     function option($name, $decode = false) {
-        $value = data_get($GLOBALS, "options.{$name}");
+        $value = data_get(app('sb.options'), $name);
 
         return ($decode && $value) ? (array) json_decode($value, true) : $value;
     }

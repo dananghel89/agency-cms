@@ -14,7 +14,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        require_once app_path('Project') . '/helpers.php';
+        $this->app->singleton('sb.options', fn () => parse_args(
+            Options::query()->pluck('value', 'name')->all(),
+            config('sb.options')
+        ));
     }
 
     /**
@@ -25,10 +28,5 @@ class AppServiceProvider extends ServiceProvider
         Schema::defaultStringLength(191);
 
         Paginator::useBootstrapFour();
-
-        $GLOBALS['options'] = parse_args(
-            Options::all()->pluck('value', 'name')->toArray(),
-            config('sb.options')
-        );
     }
 }
