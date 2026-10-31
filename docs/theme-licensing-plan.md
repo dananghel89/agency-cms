@@ -76,9 +76,9 @@ Plan order in `docs/`:
 
 ## 3. Phases
 
-### Phase 0 – Decisions and branch
+### Phase 0 – Decisions
 
-1. The review plan is merged into `master`. Create the branch `chore/licensing`.
+1. The review plan is finished on `master`. Work directly on `master`: commit and push each step, with no feature branch.
 2. Decisions (confirmed 2026-10-31): project name **Agency CMS** (`agency-cms`); license **MIT** (`Copyright (c) <year> Dan Anghel`); `public/favicon.png` is **not** your own, so it is replaced in Phase 4.
 3. The local folder `start-bootstrap`, the WAMP vhost `start-bootstrap.test` and the DB name `start_bootstrap` **stay as they are**: these are internal, not public branding. Claude's project memory is also tied to the folder path. Renaming them is optional and separate.
 
@@ -185,7 +185,7 @@ Side effect: a new `APP_NAME` changes the default cache prefix and session cooki
    - The public site, login and admin look right with the new photos, text logo and self-hosted fonts.
    - The Network tab shows no third-party hosts.
    - `/demo/admin/index.html` → 404.
-5. Final review → merge `chore/licensing` into `master` (with your approval). Commit messages are one-line `type: description` (e.g. `chore: remove bundled theme demos`, `docs: add third-party notices and project license`).
+5. Final review of the plan's commits on `master`, with your approval. Commit messages are one-line `type: description` (e.g. `chore: remove bundled theme demos`, `docs: add third-party notices and project license`).
 
 ## 4. Changes to the other plans (already applied)
 

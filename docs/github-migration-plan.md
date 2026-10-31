@@ -64,7 +64,7 @@ These are already written into the review plan, so the migration has as little t
 
 ### 4.1 Pre-flight (local)
 
-1. The review plan is merged into `master`. Run `git status` → clean. `git branch` → only `master`; delete any merged feature branches (`git branch -d …`).
+1. The review and licensing plans are finished on `master`. Run `git status` → clean; `git branch` → only `master`.
 2. `git fetch origin` and `git status` → `master` is in sync with `origin/master` (Bitbucket), so the fallback has everything.
 3. `php81 artisan test` → green. This is the reference for after the rewrite.
 4. **Backup** outside the repo: `git bundle create ../start-bootstrap-pre-github-YYYYMMDD.bundle --all`, then `git bundle verify ../start-bootstrap-pre-github-YYYYMMDD.bundle`.
@@ -176,7 +176,7 @@ All of these must pass; if one fails, reset to the backup (section 6) and fix th
 1. In `CLAUDE.md`:
    - The repo is on GitHub, and commits use the noreply identity automatically.
    - The seeded login is `admin@example.com` / `password` unless `SEED_ADMIN_*` is set in `.env`.
-2. The upgrade plan's Phase 0 branch is now created from the GitHub `master`. Its commits use the noreply address automatically; check with `git config user.email` before the first commit.
+2. The upgrade plan works on the GitHub `master`. Its commits use the noreply address automatically; check with `git config user.email` before the first commit.
 3. **Local DB:** your current local admin login is unchanged, because the database isn't touched. After the next `migrate:fresh --seed`, it becomes the `.env`/default values. Put your preferred `SEED_ADMIN_EMAIL`/`SEED_ADMIN_PASSWORD` and `SB_ADMIN_EMAIL` in your local `.env`.
 
 ## 5. Checklist (end state)

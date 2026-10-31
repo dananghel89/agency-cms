@@ -53,10 +53,10 @@ Prerequisite check (Phase 0) before any work:
 
 ## 3. Phases
 
-### Phase 0 – Prerequisites and branch
+### Phase 0 – Prerequisites
 
 1. Run the prerequisite check (section 1).
-2. Create the branch `feature/finish-project` from `master`.
+2. Work directly on `master`: commit and push each phase, with no feature branch.
 3. Back up the database (`mysqldump start_bootstrap > ../start_bootstrap-backup-YYYYMMDD.sql`).
 
 ### Phase 1 – Shared admin infrastructure
@@ -232,7 +232,7 @@ The admin list columns are updated to show the new fields: a thumbnail for image
    - **`CLAUDE.md`:** the admin CRUD pattern (shared traits, delete route + Livewire destroy, image handling), the Options keys, the translation loader, page templates, Clients.
    - **`README.md`:** the feature list.
    - Mark the review plan's backlog items as done (pointing to this plan).
-5. Final diff review → merge into `master` (with your approval).
+5. Final review of the plan's commits on `master`, with your approval.
 
 ## 4. Smoke checklist (final)
 

@@ -50,14 +50,14 @@ Node is 24.21 locally, which meets Vite 8's requirement (`^20.19 || >=22.12`).
 - **MySQL:** after the review plan, options load lazily, so `composer`/`artisan` no longer need MySQL to boot and tests use SQLite. The app itself (browser, `migrate`) still needs WAMP MySQL running.
 - **Interim testing without touching WAMP:** during Phases 3–9, use the test suite (`php artisan test`) plus `php artisan serve` (PHP 8.4, http://127.0.0.1:8000) against the WAMP MySQL database. Apache stays on 8.1 until the final checkpoint.
 
-> ⚠️ Once Phase 3 runs `composer update`, `vendor/` requires PHP ≥ 8.2. The WAMP site at `http://start-bootstrap.test` (Apache on PHP 8.1) **stops working** until Apache is switched to 8.4 (Phase 10) or you go back to `master` and run `php81 composer.phar install`.
+> ⚠️ Once Phase 3 runs `composer update`, `vendor/` requires PHP ≥ 8.2. The WAMP site at `http://start-bootstrap.test` (Apache on PHP 8.1) **stops working** until Apache is switched to 8.4 (Phase 10) or you check out the `pre-laravel-13` tag (Phase 0) and run `php81 composer.phar install`.
 
 ## 3. Strategy
 
 1. **Safety net first:** the review plan (prerequisite) leaves `master` with a green test suite on Laravel 10 / Livewire 3 / PHP 8.1. Phase 1 below only confirms it.
 2. **Upgrade one major version at a time** (10 → 11 → 12 → 13) on PHP 8.4 CLI. Each phase must keep the suite green.
 3. Then the **structure migration**, the **Livewire 4** upgrade and the **Vite** upgrade, as separate phases.
-4. Each phase ends with `php artisan test`, the smoke checklist (section 5) and a commit on the upgrade branch (commits only with your approval).
+4. Each phase ends with `php artisan test`, the smoke checklist (section 5) and a commit pushed directly to `master` (commits only with your approval).
 
 Each official upgrade guide is small (10–15 min), so if a phase turns the suite red, it's clear which change caused it.
 
@@ -84,7 +84,7 @@ Each official upgrade guide is small (10–15 min), so if a phase turns the suit
 
 ### Phase 0 – Preparation and baseline (PHP 8.1, nothing changes)
 
-1. Create the branch `upgrade/laravel-13` from `master`.
+1. Work directly on `master`, with no branch. Mark the starting point with `git tag pre-laravel-13` and `git push origin pre-laravel-13`; this is the rollback point.
 2. Back up the database: WAMP MySQL → `mysqldump start_bootstrap > ../start_bootstrap-backup-YYYYMMDD.sql` (keep it outside the repo).
 3. Record the baseline:
    - `php81 artisan --version` → `Laravel Framework 10.43.0`
@@ -97,7 +97,7 @@ Each official upgrade guide is small (10–15 min), so if a phase turns the suit
 
 The former Phase 1 (helpers fix, lazy options, SQLite test suite) is now part of [project-review-fix-plan.md](project-review-fix-plan.md), Phases A–B. Here, only confirm:
 
-1. `master` contains the merged `fix/project-review` branch.
+1. `master` contains the finished review plan.
 2. `phpunit.xml` uses SQLite in-memory. **Never run the tests before this is true**: with MySQL configured, `RefreshDatabase` wipes the local DB.
 3. `php81 artisan test` → **all green on Laravel 10**. This is the reference for every later phase.
 4. `composer.json` has `"files": ["app/Project/Helpers.php"]`. `option()` reads the lazy `sb.options` singleton. Neither helper name (`option`, `parse_args`) conflicts with the global functions that Laravel 13's `symfony/polyfill-php85` adds (`array_first`, `array_last`).
@@ -283,8 +283,8 @@ Then:
    - Livewire 4 single-file components replace Volt (`Route::livewire`, `Livewire::test`)
    - Vite 8
    - remove the `php81` note
-2. `./vendor/bin/pint --test` for information only (no mass reformat in this branch).
-3. Final review of the branch diff, then merge to `master` (with your approval).
+2. `./vendor/bin/pint --test` for information only (no mass reformat in this upgrade).
+3. Final review of `git diff pre-laravel-13 master`, with your approval. Then delete the tag (`git tag -d pre-laravel-13`, `git push origin :refs/tags/pre-laravel-13`).
 
 ---
 
@@ -316,10 +316,10 @@ CLI:
 
 ## 6. Rollback
 
-- Code: `git checkout master`, then `php81 composer.phar install`, then `npm ci`.
+- Code: `git revert --no-edit pre-laravel-13..master` (a new commit, so no force-push), then `php81 composer.phar install`, then `npm ci`. To only test the old state, run `git checkout pre-laravel-13`.
 - Database: the upgrade adds no migrations. If anything goes wrong, restore the Phase 0 dump.
 - WAMP: switch Apache back to PHP 8.1.34.
-- Each phase is its own commit, so you can also go back to the last good phase on the branch.
+- Each phase is its own commit, so you can also revert only the phases after the last good one.
 
 ## 7. Known issues and risks
 
