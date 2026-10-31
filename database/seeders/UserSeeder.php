@@ -19,12 +19,12 @@ class UserSeeder extends Seeder
             [
                 'name' => 'Admin',
                 'email' => Options::userEmails()->get('admin'),
-                'password' => Hash::make(config('sb.seed.admin_password')),
+                'password' => Hash::make(config('project.seed.admin_password')),
             ],
             // [
             //     'name' => 'Editor',
             //     'email' => Options::userEmails()->get('editor'),
-            //     'password' => Hash::make(config('sb.seed.admin_password')),
+            //     'password' => Hash::make(config('project.seed.admin_password')),
             // ],
         ];
 

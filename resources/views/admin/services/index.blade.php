@@ -33,7 +33,7 @@
                             <td>{{ $service->title }}</td>
                             <td>{{ Str::of($service->content)->limit(40, ' [...]') }}</td>
                             <td>{{ $service->icon }}</td>
-                            <td>{{ $service->created_at->format(config('sb.date_format')) }}</td>
+                            <td>{{ $service->created_at->format(config('project.date_format')) }}</td>
                             <td class="text-center">
                                 @php
                                     $actions = [

@@ -31,7 +31,7 @@
                         <tr>
                             <td>{{ $page->title }}</td>
                             <td>{{ $page->template }}</td>
-                            <td>{{ $page->created_at->format(config('sb.date_format')) }}</td>
+                            <td>{{ $page->created_at->format(config('project.date_format')) }}</td>
                             <td class="text-center">
                                 @php
                                     $actions = [

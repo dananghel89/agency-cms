@@ -12,7 +12,7 @@ class OptionHelperTest extends TestCase
 
     public function test_config_defaults_apply_when_the_options_table_is_empty(): void
     {
-        config(['sb.options.site_title' => 'Default Title']);
+        config(['project.options.site_title' => 'Default Title']);
 
         $this->assertSame('Default Title', option('site_title'));
         $this->assertNull(option('unknown_option'));
@@ -20,7 +20,7 @@ class OptionHelperTest extends TestCase
 
     public function test_database_values_override_config_defaults(): void
     {
-        config(['sb.options.site_title' => 'Default Title']);
+        config(['project.options.site_title' => 'Default Title']);
         Options::factory()->create(['name' => 'site_title', 'value' => 'Stored Title']);
 
         $this->assertSame('Stored Title', option('site_title'));

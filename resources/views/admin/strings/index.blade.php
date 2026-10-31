@@ -33,7 +33,7 @@
                         <tr>
                             <td>{{ $string->key }}</td>
                             <td>{{ $string->replace }}</td>
-                            <td>{{ $string->created_at->format(config('sb.date_format')) }}</td>
+                            <td>{{ $string->created_at->format(config('project.date_format')) }}</td>
                             <td class="text-center">
                                 @php
                                     $actions = [

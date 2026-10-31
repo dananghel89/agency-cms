@@ -33,7 +33,7 @@
                             <td>{{ $team->name }}</td>
                             <td>{{ $team->profession }}</td>
                             <td>{!! $team->social_links_html !!}</td>
-                            <td>{{ $team->created_at->format(config('sb.date_format')) }}</td>
+                            <td>{{ $team->created_at->format(config('project.date_format')) }}</td>
                             <td class="text-center">
                                 @php
                                     $actions = [

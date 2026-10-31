@@ -33,7 +33,7 @@
                             <td>{{ $timeline->title }}</td>
                             <td>{{ $timeline->subtitle }}</td>
                             <td>{{ Str::of($timeline->content)->limit(40, ' [...]') }}</td>
-                            <td>{{ $timeline->created_at->format(config('sb.date_format')) }}</td>
+                            <td>{{ $timeline->created_at->format(config('project.date_format')) }}</td>
                             <td class="text-center">
                                 @php
                                     $actions = [

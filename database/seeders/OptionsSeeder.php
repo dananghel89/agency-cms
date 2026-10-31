@@ -21,7 +21,7 @@ class OptionsSeeder extends Seeder
             ],
             [
                 'name' => 'admin_email',
-                'value' => config('sb.options.admin_email'),
+                'value' => config('project.options.admin_email'),
             ],
             [
                 'name' => 'social_links',

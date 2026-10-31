@@ -27,7 +27,7 @@
                             <td>{{ $contact->name }}</td>
                             <td>{{ $contact->email }}</td>
                             <td>{{ $contact->phone }}</td>
-                            <td>{{ $contact->created_at->format(config('sb.date_format')) }}</td>
+                            <td>{{ $contact->created_at->format(config('project.date_format')) }}</td>
                             <td class="text-center">
                                 @php
                                     $actions = [
