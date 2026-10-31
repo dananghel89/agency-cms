@@ -18,11 +18,22 @@ class PageController extends BaseController
 
     public function create(): View
     {
-        return view('admin.pages.create');
+        return $this->notImplemented(__('Add New Page'));
     }
 
     public function edit(string $id): View
     {
-        return view('admin.pages.edit');
+        Page::findOrFail($id);
+
+        return $this->notImplemented(__('Edit Page'));
+    }
+
+    private function notImplemented(string $title): View
+    {
+        return view('admin.common.not-implemented', [
+            'title' => $title,
+            'slug' => 'pages',
+            'back' => route('pages.index'),
+        ]);
     }
 }

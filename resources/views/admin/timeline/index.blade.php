@@ -38,7 +38,6 @@
                                 @php
                                     $actions = [
                                         'edit' => route('timeline.edit', ['timeline' => $timeline->id]),
-                                        'delete' => 'deleteTimeline',
                                     ];
                                 @endphp
                                 <x-common.row-actions :item="$actions" />

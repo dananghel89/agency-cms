@@ -18,11 +18,22 @@ class TimelineController extends BaseController
 
     public function create(): View
     {
-        return view('admin.timeline.create');
+        return $this->notImplemented(__('Add New Timeline Item'));
     }
 
     public function edit(string $id): View
     {
-        return view('admin.timeline.edit');
+        Timeline::findOrFail($id);
+
+        return $this->notImplemented(__('Edit Timeline Item'));
+    }
+
+    private function notImplemented(string $title): View
+    {
+        return view('admin.common.not-implemented', [
+            'title' => $title,
+            'slug' => 'timeline',
+            'back' => route('timeline.index'),
+        ]);
     }
 }

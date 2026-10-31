@@ -10,8 +10,10 @@ class PageController extends Controller
     /**
      * Handle the incoming request.
      */
-    public function __invoke(string $slug)
+    public function __invoke(string $slug): View
     {
-        //
+        $page = Page::published()->where('slug', $slug)->firstOrFail();
+
+        return view('pages.default', ['page' => $page]);
     }
 }

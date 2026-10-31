@@ -51,10 +51,29 @@ class OptionsTest extends TestCase
         $this->assertSame('old@example.com', Options::firstWhere('name', 'admin_email')->value);
     }
 
+    public function test_missing_option_rows_are_created_on_save(): void
+    {
+        Options::query()->delete();
+
+        $this->optionsComponent()
+            ->assertSet('site_title', config('sb.options.site_title'))
+            ->set('site_title', 'New Title')
+            ->set('admin_email', 'owner@example.com')
+            ->set('social_links', ['facebook' => 'https://www.facebook.com/agency', 'twitter' => ''])
+            ->call('update')
+            ->assertHasNoErrors()
+            ->assertDispatched('options-updated');
+
+        $options = Options::pluck('value', 'name');
+
+        $this->assertSame('New Title', $options['site_title']);
+        $this->assertSame('owner@example.com', $options['admin_email']);
+        $this->assertSame('https://www.facebook.com/agency', json_decode($options['social_links'], true)['facebook']);
+    }
+
     private function optionsComponent()
     {
         return Volt::test('admin.options', [
-            'items' => Options::all(),
             'socialNetworks' => Options::socialNetworks(),
         ]);
     }

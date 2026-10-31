@@ -32,7 +32,6 @@
                                 @php
                                     $actions = [
                                         'view' => route('contacts.show', ['contact' => $contact->id]),
-                                        'delete' => 'deleteContact',
                                     ];
                                 @endphp
                                 <x-common.row-actions :item="$actions" />

@@ -1,6 +1,6 @@
 # Project review and fix plan
 
-Status: **In progress** – Phase A done (af5bcff), Phase B done
+Status: **In progress** – Phase A done (af5bcff), Phase B done (ea14f30), Phase C done (R07 + R15 checked in the browser)
 Created: 2026-10-31
 Runs **first**. Then [theme-licensing-plan.md](theme-licensing-plan.md), then [github-migration-plan.md](github-migration-plan.md), then [laravel-13-upgrade-plan.md](laravel-13-upgrade-plan.md), then [finish-project-plan.md](finish-project-plan.md). The upgrade plan's Phase 1 (helpers fix, lazy options, test suite) moved into this plan.
 
@@ -203,7 +203,8 @@ Add any new findings here (ID, location, problem, decision). Fix them only if th
 
 | ID | Location | Problem | Decision |
 |---|---|---|---|
-| – | – | – | – |
+| N01 | `components/social-links.blade.php` (public home, Team + footer) | Links are escaped, but a `javascript:` URL saved as a social link would still be clickable on the public site (the admin list was fixed in R12) | Fix together with R20 in Phase D: render only `http(s)` URLs |
+| N02 | `RouteServiceProvider::HOME` | Points to `/dashboard`, which doesn't exist; it's unused (redirects use `route('dashboard')`) | Remove with the R28 dead-code cleanup in Phase D |
 
 ## 6. Backlog (unfinished features – not part of this plan)
 

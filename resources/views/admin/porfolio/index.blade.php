@@ -42,7 +42,6 @@
                                 @php
                                     $actions = [
                                         'edit' => route('portfolio.edit', ['portfolio' => $portfolio->id]),
-                                        'delete' => 'deletePortfolio',
                                     ];
                                 @endphp
                                 <x-common.row-actions :item="$actions" />

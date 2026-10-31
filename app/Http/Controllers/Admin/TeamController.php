@@ -18,11 +18,22 @@ class TeamController extends BaseController
 
     public function create(): View
     {
-        return view('admin.team.create');
+        return $this->notImplemented(__('Add New Team Member'));
     }
 
     public function edit(string $id): View
     {
-        return view('admin.team.edit');
+        Team::findOrFail($id);
+
+        return $this->notImplemented(__('Edit Team Member'));
+    }
+
+    private function notImplemented(string $title): View
+    {
+        return view('admin.common.not-implemented', [
+            'title' => $title,
+            'slug' => 'team',
+            'back' => route('team.index'),
+        ]);
     }
 }

@@ -5,6 +5,6 @@
 
 <x-common.message-success type="flash" on="options-updated" :message="__('Options updated.')" />
 
-<livewire:admin.options :items="$items" :socialNetworks="$socialNetworks" />
+<livewire:admin.options :socialNetworks="$socialNetworks" />
 
 </x-admin-layout>
