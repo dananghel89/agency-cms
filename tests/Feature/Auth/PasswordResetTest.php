@@ -43,7 +43,8 @@ class PasswordResetTest extends TestCase
 
         $this->get('/reset-password/'.$token.'?email='.urlencode($user->email))
             ->assertOk()
-            ->assertSeeVolt('auth.reset-password');
+            ->assertSeeVolt('auth.reset-password')
+            ->assertSee('<form class="user" wire:submit="resetPassword">', false);
     }
 
     public function test_password_can_be_reset_with_valid_token(): void

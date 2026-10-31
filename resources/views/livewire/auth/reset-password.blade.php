@@ -71,7 +71,7 @@ new #[Layout('layouts.guest')] class extends Component
 
 @section('title', __('Reset Password'))
 
-<div class="row" wire:submit="resetPassword">
+<div class="row">
     <div class="col-lg-5 d-none d-lg-block bg-password-image"></div>
     <div class="col-lg-7">
         <div class="p-5">
@@ -79,7 +79,7 @@ new #[Layout('layouts.guest')] class extends Component
                 <h1 class="h4 text-gray-900 mb-2">{{ __('Reset Your Password') }}</h1>
                 <p class="mb-4">{{ __('Enter your new password below.') }}</p>
             </div>
-            <form class="user">
+            <form class="user" wire:submit="resetPassword">
                 <div class="form-group">
                     <input
                         type="email" class="form-control form-control-user" id="email" placeholder="{{ __('Email Address') }}"

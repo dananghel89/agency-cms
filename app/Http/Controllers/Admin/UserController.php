@@ -18,11 +18,22 @@ class UserController extends BaseController
 
     public function create(): View
     {
-        return view('admin.users.create');
+        return $this->notImplemented(__('Add New User'));
     }
 
     public function edit(string $id): View
     {
-        return view('admin.users.edit');
+        User::findOrFail($id);
+
+        return $this->notImplemented(__('Edit User'));
+    }
+
+    private function notImplemented(string $title): View
+    {
+        return view('admin.common.not-implemented', [
+            'title' => $title,
+            'slug' => 'users',
+            'back' => route('users.index'),
+        ]);
     }
 }

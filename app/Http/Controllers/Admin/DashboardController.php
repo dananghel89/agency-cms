@@ -35,7 +35,6 @@ class DashboardController extends BaseController
     public function options(): View
     {
         $data = [
-            'items' => Options::all(),
             'socialNetworks' => Options::socialNetworks(),
         ];
 

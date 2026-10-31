@@ -57,4 +57,9 @@
     e.preventDefault();
   });
 
+  // Search, sorting and paging on admin lists
+  if ($.fn.DataTable) {
+    $('#dataTable').DataTable();
+  }
+
 })(jQuery); // End of use strict

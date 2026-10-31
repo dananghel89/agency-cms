@@ -18,11 +18,22 @@ class ServiceController extends BaseController
 
     public function create(): View
     {
-        return view('admin.services.create');
+        return $this->notImplemented(__('Add New Service'));
     }
 
     public function edit(string $id): View
     {
-        return view('admin.services.edit');
+        Service::findOrFail($id);
+
+        return $this->notImplemented(__('Edit Service'));
+    }
+
+    private function notImplemented(string $title): View
+    {
+        return view('admin.common.not-implemented', [
+            'title' => $title,
+            'slug' => 'services',
+            'back' => route('services.index'),
+        ]);
     }
 }

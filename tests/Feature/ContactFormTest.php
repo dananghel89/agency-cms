@@ -63,6 +63,27 @@ class ContactFormTest extends TestCase
         Mail::assertNothingSent();
     }
 
+    public function test_the_fourth_message_within_ten_minutes_is_rejected(): void
+    {
+        Options::factory()->create(['name' => 'admin_email', 'value' => 'owner@example.com']);
+
+        foreach (range(1, 3) as $attempt) {
+            $this->submitValidMessage()->assertHasNoErrors();
+        }
+
+        $this->submitValidMessage()
+            ->assertHasErrors('form')
+            ->assertNotDispatched('contact-success');
+
+        $this->assertDatabaseCount('contacts', 3);
+        Mail::assertSent(ContactForm::class, 3);
+
+        $this->travel(11)->minutes();
+
+        $this->submitValidMessage()->assertHasNoErrors();
+        $this->assertDatabaseCount('contacts', 4);
+    }
+
     private function submitValidMessage()
     {
         return Volt::test('pages.contact')

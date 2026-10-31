@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('slug');
             $table->string('title');
-            $table->text('descrition')->nullable();
+            $table->text('description')->nullable();
             $table->mediumText('content')->nullable();
             $table->string('template')->nullable();
             $table->enum('status', ['publish', 'draft'])->default('publish');

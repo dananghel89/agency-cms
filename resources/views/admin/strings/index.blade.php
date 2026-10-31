@@ -38,7 +38,6 @@
                                 @php
                                     $actions = [
                                         'edit' => route('strings.edit', ['string' => $string->id]),
-                                        'delete' => 'deleteString',
                                     ];
                                 @endphp
                                 <x-common.row-actions :item="$actions" />

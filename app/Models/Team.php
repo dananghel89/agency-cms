@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\HasPublishStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Team extends Model
 {
-    use HasFactory;
+    use HasFactory, HasPublishStatus;
 
     protected $table = 'team';
 
@@ -31,14 +32,14 @@ class Team extends Model
     {
         if (empty($this->social_links)) return;
 
-        $separator = "&comma;\r\n";
-
-        $out = '';
+        $links = [];
 
         foreach ($this->social_links as $name => $link) {
-            $out .= sprintf('<a href="%s" target="_blank">%s</a>', $link, $name) . $separator;
+            if (! is_string($link) || ! preg_match('#^https?://#i', $link)) continue;
+
+            $links[] = sprintf('<a href="%s" target="_blank" rel="noopener">%s</a>', e($link), e($name));
         }
 
-        return rtrim($out, $separator);
+        return implode(', ', $links);
     }
 }

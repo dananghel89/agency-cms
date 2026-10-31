@@ -1,12 +1,10 @@
 <?php
 
 use App\Models\Options;
-use Illuminate\Support\Arr;
 use Livewire\Volt\Component;
 
 new class extends Component
 {
-    public $items;
     public $socialNetworks;
 
     public string $site_title = '';
@@ -18,35 +16,27 @@ new class extends Component
      */
     public function mount(): void
     {
-        $options = $this->items->pluck('value', 'name');
-
-        foreach ($options as $optionName => $optionValue) {
-            if (!isset($this->$optionName)) continue;
-
-            if (is_array($this->$optionName)) {
-                $optionValue = $optionValue ? json_decode($optionValue, true) : [];
-            }
-
-            $this->$optionName = $optionValue;
-        }
+        $this->site_title = (string) option('site_title');
+        $this->admin_email = (string) option('admin_email');
+        $this->social_links = (array) option('social_links', true);
     }
 
     public function update(): void
     {
-        $options = $this->items->pluck('name', 'id');
-
-        $validated = $this->validate([
+        $this->validate([
             'site_title' => ['string', 'max:255'],
             'admin_email' => ['string', 'lowercase', 'email', 'max:255'],
-            'social_links.*' => ['string', 'lowercase', 'url', 'max:255'],
+            'social_links.*' => ['nullable', 'string', 'lowercase', 'url', 'max:255'],
         ]);
 
-        foreach ( $options as $optionId => $optionName ) {
-            $option = Options::find($optionId);
+        $values = [
+            'site_title' => $this->site_title,
+            'admin_email' => $this->admin_email,
+            'social_links' => json_encode($this->social_links),
+        ];
 
-            $option->update([
-                'value' => Arr::get($validated, $optionName),
-            ]);
+        foreach ($values as $name => $value) {
+            Options::updateOrCreate(['name' => $name], ['value' => $value]);
         }
 
         $this->dispatch('options-updated');

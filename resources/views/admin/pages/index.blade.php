@@ -36,7 +36,6 @@
                                 @php
                                     $actions = [
                                         'edit' => route('pages.edit', ['page' => $page->id]),
-                                        'delete' => 'deletePage',
                                     ];
                                 @endphp
                                 <x-common.row-actions :item="$actions" />

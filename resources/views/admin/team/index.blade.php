@@ -38,7 +38,6 @@
                                 @php
                                     $actions = [
                                         'edit' => route('team.edit', ['team' => $team->id]),
-                                        'delete' => 'deleteTeam',
                                     ];
                                 @endphp
                                 <x-common.row-actions :item="$actions" />

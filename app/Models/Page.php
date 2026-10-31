@@ -2,17 +2,18 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\HasPublishStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Page extends Model
 {
-    use HasFactory;
+    use HasFactory, HasPublishStatus;
 
     protected $fillable = [
         'slug',
         'title',
-        'descrition',
+        'description',
         'content',
         'template',
         'status',

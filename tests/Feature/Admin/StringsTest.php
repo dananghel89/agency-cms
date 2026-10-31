@@ -68,6 +68,19 @@ class StringsTest extends TestCase
         $this->assertSame('The people', $string->fresh()->replace);
     }
 
+    public function test_a_string_can_be_updated_with_an_unchanged_key(): void
+    {
+        $string = Translation::factory()->create(['key' => 'Our Team']);
+
+        Volt::test('admin.string', ['item' => $string])
+            ->set('replace', 'The people')
+            ->call('update')
+            ->assertHasNoErrors()
+            ->assertDispatched('string-updated');
+
+        $this->assertSame('The people', $string->fresh()->replace);
+    }
+
     public function test_a_string_can_be_deleted(): void
     {
         $string = Translation::factory()->create();

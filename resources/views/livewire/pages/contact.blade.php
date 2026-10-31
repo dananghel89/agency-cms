@@ -3,6 +3,7 @@
 use Livewire\Volt\Component;
 use App\Models\Contact;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\RateLimiter;
 use App\Mail\ContactForm;
 
 new class extends Component
@@ -14,6 +15,18 @@ new class extends Component
 
     public function submit()
     {
+        $this->resetErrorBag('form');
+
+        $throttleKey = 'contact:'.request()->ip();
+
+        if (RateLimiter::tooManyAttempts($throttleKey, 3)) {
+            $this->addError('form', __('Too many messages. Please try again in :minutes minutes.', [
+                'minutes' => ceil(RateLimiter::availableIn($throttleKey) / 60),
+            ]));
+
+            return;
+        }
+
         $validated = $this->validate([
             'name' => ['required', 'string', 'max:100'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255'],
@@ -22,6 +35,8 @@ new class extends Component
         ]);
 
         $contact = Contact::create($validated);
+
+        RateLimiter::hit($throttleKey, 600);
 
         if ($contact->wasRecentlyCreated) {
             $this->sendMail();
@@ -103,6 +118,10 @@ new class extends Component
                     </div>
                 </div>
             </x-common.message-flash>
+
+            <div class="text-center mb-3">
+                <x-common.feedback-invalid :messages="$errors->get('form')" />
+            </div>
 
             <div class="text-center">
                 <button type="submit" class="btn btn-primary btn-xl text-uppercase" id="submitButton">{{ __('Send Message') }}</button>

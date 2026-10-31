@@ -2,6 +2,7 @@
 
 use Livewire\Volt\Component;
 use App\Models\Translation;
+use Illuminate\Validation\Rule;
 
 new class extends Component
 {
@@ -11,10 +12,13 @@ new class extends Component
     public string $key = '';
     public string $replace = '';
 
-    protected array $rules = [
-        'key' => ['required', 'string', 'max:1000', 'unique:'.Translation::class],
-        'replace' => ['required', 'string', 'max:1000'],
-    ];
+    protected function rules(): array
+    {
+        return [
+            'key' => ['required', 'string', 'max:1000', Rule::unique(Translation::class, 'key')->ignore($this->item?->id)],
+            'replace' => ['required', 'string', 'max:1000'],
+        ];
+    }
 
     public function mount(): void
     {
@@ -26,7 +30,7 @@ new class extends Component
 
     public function store(): void
     {
-        $validated = $this->validate($this->rules);
+        $validated = $this->validate();
 
         $string = Translation::create($validated);
 
@@ -39,7 +43,7 @@ new class extends Component
     {
         $string = $this->item;
 
-        $validated = $this->validate($this->rules);
+        $validated = $this->validate();
 
         $string->fill($validated);
 

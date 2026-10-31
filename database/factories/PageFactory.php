@@ -5,7 +5,7 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models$2>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Page>
  */
 class PageFactory extends Factory
 {
@@ -19,6 +19,7 @@ class PageFactory extends Factory
         return [
             'slug' => fake()->unique()->slug(2),
             'title' => fake()->sentence(3),
+            'description' => fake()->sentence(),
             'content' => fake()->paragraphs(2, true),
             'status' => 'publish',
         ];

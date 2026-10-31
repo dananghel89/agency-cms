@@ -18,11 +18,22 @@ class PortfolioController extends BaseController
 
     public function create(): View
     {
-        return view('admin.porfolio.create');
+        return $this->notImplemented(__('Add New Portfolio Item'));
     }
 
     public function edit(string $id): View
     {
-        return view('admin.porfolio.edit');
+        Portfolio::findOrFail($id);
+
+        return $this->notImplemented(__('Edit Portfolio Item'));
+    }
+
+    private function notImplemented(string $title): View
+    {
+        return view('admin.common.not-implemented', [
+            'title' => $title,
+            'slug' => 'portfolio',
+            'back' => route('portfolio.index'),
+        ]);
     }
 }
