@@ -15,7 +15,6 @@
 
     $values = [
         'class' => 'form-control',
-        'type' => $type,
     ];
 
     if ($name) {
@@ -32,7 +31,7 @@
 @endphp
 
 @if (in_array($type, $allowed))
-    <input {!! $attributes->merge($values) !!}>
+    <input {!! $attributes->merge($values + ['type' => $type]) !!}>
 
 @elseif(($type == 'select') && $options)
     <select {!! $attributes->merge($values) !!}>

@@ -38,6 +38,7 @@ class ServiceSeeder extends Seeder
             $item += [
                 'content' => $content,
                 'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
             ];
 
             DB::table('services')->insert($item);

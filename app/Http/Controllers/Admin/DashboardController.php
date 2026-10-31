@@ -16,11 +16,11 @@ class DashboardController extends BaseController
     {
         $data = [
             'featured' => collect([
-                'pages' => Page::all()->count(),
-                'services' => Service::all()->count(),
-                'portfolio' => Portfolio::all()->count(),
-                'timeline' => Timeline::all()->count(),
-                'team' => Team::all()->count(),
+                'pages' => Page::count(),
+                'services' => Service::count(),
+                'portfolio' => Portfolio::count(),
+                'timeline' => Timeline::count(),
+                'team' => Team::count(),
             ]),
         ];
 

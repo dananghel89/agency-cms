@@ -44,6 +44,7 @@ class TimelineSeeder extends Seeder
             $item += [
                 'content' => $content,
                 'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
             ];
 
             DB::table('timeline')->insert($item);

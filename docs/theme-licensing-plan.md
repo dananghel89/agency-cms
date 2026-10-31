@@ -67,7 +67,7 @@ Plan order in `docs/`:
 | Library | License | Notice in the served file? | Action |
 |---|---|---|---|
 | Bootstrap 4.6.0 / 5.2.3 | MIT | Yes | Add LICENSE |
-| jQuery 3.6.0 | MIT | Yes | Add LICENSE; drop `jquery.slim*` (unused after review-plan R25) |
+| jQuery 3.6.0 | MIT | Yes | Add LICENSE. Keep `jquery.slim*`: its tag is commented out in the public layout (review-plan R25) |
 | jQuery Easing 1.4.1 | **BSD-3-Clause** (the notice is required in redistributions) | **No** (`.min.js`) | Add LICENSE + a banner; drop the unused `jquery.easing.compatibility.js` |
 | DataTables 1.13 (+ Bootstrap 4 integration) | MIT | `.min.css` **no** | Add LICENSE |
 | Chart.js 2.9.4 | MIT | Yes | **Unused** by the app (only by the demo), so delete `public/vendor/chart.js` and the npm dependency |
@@ -114,8 +114,9 @@ Plan order in `docs/`:
 2. `jquery.easing.min.js`: add the banner `/*! jQuery Easing v1.4.1 | (c) 2008 George McGinley Smith | BSD-3-Clause | https://github.com/gdsmith/jquery-easing */`.
 3. **Delete unused files:**
    - `public/vendor/chart.js/` and the `chart.js` npm dependency
-   - `public/vendor/jquery/jquery.slim*` (if review-plan R25 hasn't already)
    - `jquery.easing.compatibility.js`
+
+   Keep `public/vendor/jquery/jquery.slim*`: its `<script>` tag in `layouts/app.blade.php` is commented out (review-plan R25), not removed, so it can be switched back on.
 4. **Trademarked logos:** delete `resources/agency/img/logos/*.svg`. Hide the home **Clients** section until the finish plan's Clients feature exists. That plan seeds neutral, self-made placeholder logos, never real brands.
 5. **unDraw:** delete `resources/admin/img/undraw_*.svg`. The topbar avatar becomes `<i class="fas fa-user-circle fa-2x text-gray-400"></i>`.
 

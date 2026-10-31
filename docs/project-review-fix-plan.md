@@ -1,6 +1,6 @@
 # Project review and fix plan
 
-Status: **In progress** – Phase A done (af5bcff), Phase B done (ea14f30), Phase C done (R07 + R15 checked in the browser)
+Status: **In progress** – Phase A done (af5bcff), Phase B done (ea14f30), Phase C done (8d5bb0a), Phase D done
 Created: 2026-10-31
 Runs **first**. Then [theme-licensing-plan.md](theme-licensing-plan.md), then [github-migration-plan.md](github-migration-plan.md), then [laravel-13-upgrade-plan.md](laravel-13-upgrade-plan.md), then [finish-project-plan.md](finish-project-plan.md). The upgrade plan's Phase 1 (helpers fix, lazy options, test suite) moved into this plan.
 
@@ -158,7 +158,7 @@ Each item: add a failing test → fix → green.
 | R22 | Contact: lowercase/trim the email before validating, and drop the `lowercase` rule |
 | R23 | Mail template: remove the quotes |
 | R24 | Correct the card headers ("All Strings", "All Services", …) |
-| R25 | Remove `jquery.slim` from `layouts/app.blade.php`; check the public site (navbar collapse, scrollspy, portfolio modals) |
+| R25 | Comment out (not remove) `jquery.slim` in `layouts/app.blade.php`; check the public site (navbar collapse, scrollspy, portfolio modals) |
 | R26 | Seeders: set `updated_at`; remove the dead `unset`. Move the admin login and emails to `.env` with **neutral defaults** (needed for the public GitHub repo):<br>- `SEED_ADMIN_EMAIL` (default `admin@example.com`) and `SEED_ADMIN_PASSWORD` (default `password`)<br>- `SB_ADMIN_EMAIL` for `config('sb.options.admin_email')`, default `admin@example.com`<br>- `Options::userEmails()` reads the same settings<br>Document the keys in `.env.example`, and put your real values only in your local `.env`. Update the seeded-login note in `CLAUDE.md` |
 | R27 | Rename `admin/porfolio` → `admin/portfolio` and update `PortfolioController` |
 | R28 | Remove the dead code and unused imports listed in R28 |

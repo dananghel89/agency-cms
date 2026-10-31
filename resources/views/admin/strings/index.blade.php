@@ -15,7 +15,7 @@
 <!-- DataTales Card -->
 <div class="card shadow mb-4">
     <div class="card-header py-3 d-none">
-        <h6 class="m-0 font-weight-bold text-primary">{{ __('All Contacts') }}</h6>
+        <h6 class="m-0 font-weight-bold text-primary">{{ __('All Strings') }}</h6>
     </div>
     <div class="card-body">
         <div class="table-responsive">
