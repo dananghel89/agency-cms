@@ -1,6 +1,6 @@
 # Plan: legal use of the Start Bootstrap themes and bundled assets
 
-Status: **In progress** – Phase 1 done (903d405), Phase 2 done (f430cef), Phase 3 done (5adfbfc), Phase 4 done
+Status: **In progress** – Phase 1 done (903d405), Phase 2 done (f430cef), Phase 3 done (5adfbfc), Phase 4 done (b76f2e3), Phase 5 done
 Created: 2026-10-31
 
 > This plan is a technical compliance checklist based on the published license texts. It is not legal advice. If the site is used commercially for a client, have the final inventory (section 2) reviewed by a lawyer.
@@ -46,7 +46,7 @@ Plan order in `docs/`:
 | `resources/agency/img/about/1-4.jpg` | Agency theme | No stated license | Phase 5: replace |
 | `resources/agency/img/team/1-3.jpg` | Agency theme | No stated license; **identifiable people** presented as "our team" | Phase 5: replace (see the portrait rule there) |
 | `resources/admin/img/{login,register,password}-image.jpg` | Unknown (600×800, edited in Photoshop, no metadata) | No known source | Phase 5: replace |
-| `resources/agency/img/map-image.png` | Agency theme | No stated license | Phase 5: remove (the contact section keeps its dark background) |
+| `resources/agency/img/map-image.png` | Agency theme | No stated license | Phase 5: replaced by an in-house dotted world map, `img/world-map.png` (drawn from Natural Earth 110m land data, public domain) |
 | `resources/agency/img/navbar-logo.svg` | Agency theme | The theme's default logo (looks like the Start Bootstrap wordmark), a brand you don't own | Phase 4: replace with a text logo |
 | `resources/agency/img/logos/{microsoft,google,facebook,ibm}.svg` | Agency theme | **Third-party trademarks**, shown as "clients" | Phase 3: remove; replace with in-house `img/clients/client-1…4.svg` |
 | `resources/agency/img/close-icon.svg` | Agency theme | Fine under MIT, but unnecessary | Phase 5: replace with the Font Awesome `fa-times` icon |
@@ -151,8 +151,31 @@ Side effect: a new `APP_NAME` changes the default cache prefix and session cooki
    | Admin login / register / password | `admin/img/*-image.jpg` | `admin/img/auth-login.jpg`, `auth-register.jpg`, `auth-password.jpg` | 600×800 |
 
 3. **Portrait rule (team):** a stock photo of a real person shown as "our team" can misrepresent that person, and stock licenses don't include model releases for that use. Use only photos where **no face is identifiable** (from behind, silhouettes, hands at work); decided 2026-10-31. Real team photos come later from the site owner.
-4. Update the SCSS/Blade references (`_masthead.scss`, `admin/_variables.scss`/`_login.scss`, the finish plan's seeders). Remove `map-image.png` and its `background-image` in `_contact.scss`. Replace `close-icon.svg` with `<i class="fas fa-times fa-3x"></i>` in the portfolio modal.
+4. Update the SCSS/Blade references (`_masthead.scss`, `admin/_variables.scss`/`_login.scss`, the finish plan's seeders). Replace `map-image.png` in `_contact.scss` with `img/world-map.png`: a faint dotted world map generated in-house (PHP GD) from Natural Earth 110m land outlines, which are public domain (decided 2026-10-31). Replace `close-icon.svg` with `<i class="fas fa-times fa-3x"></i>` in the portfolio modal.
 5. Delete all old files. Then check: `git ls-files resources | grep -E "header-bg|/portfolio/[0-9]|/about/|/team/[0-9]|-image\.(jpg|png)|navbar-logo|close-icon|logos/|undraw"` → nothing.
+6. **Chosen images** (done 2026-10-31): all from Unsplash under the Unsplash License (free photos only, none Unsplash+). Each was downloaded already cropped to its size from `images.unsplash.com`. This table feeds the Images section of `THIRD_PARTY_NOTICES.md` (Phase 7).
+
+   | File | Photo page | Author |
+   |---|---|---|
+   | `resources/agency/img/masthead.jpg` | https://unsplash.com/photos/9l_326FISzk | Luca Bravo |
+   | `resources/agency/img/portfolio/project-1.jpg` | https://unsplash.com/photos/8dgFq8Vbelo | Andy Brown |
+   | `resources/agency/img/portfolio/project-2.jpg` | https://unsplash.com/photos/FeuEg-8XlA8 | Balázs Kétyi |
+   | `resources/agency/img/portfolio/project-3.jpg` | https://unsplash.com/photos/eWuUwZWuWvE | Immo Wegmann |
+   | `resources/agency/img/portfolio/project-4.jpg` | https://unsplash.com/photos/l8cvrt3Hpec | Daniel Schludi |
+   | `resources/agency/img/portfolio/project-5.jpg` | https://unsplash.com/photos/AXngd0B1ppc | 0x3d |
+   | `resources/agency/img/portfolio/project-6.jpg` | https://unsplash.com/photos/BK8g9zWjETI | 0x3d |
+   | `resources/agency/img/timeline/timeline-1.jpg` | https://unsplash.com/photos/35Ff2Poa53s | Declan Sun |
+   | `resources/agency/img/timeline/timeline-2.jpg` | https://unsplash.com/photos/ASDnnQ74qMs | Zan Lazarevic |
+   | `resources/agency/img/timeline/timeline-3.jpg` | https://unsplash.com/photos/yapBRdPWxik | Faizur Rehman |
+   | `resources/agency/img/timeline/timeline-4.jpg` | https://unsplash.com/photos/Yzqq5YssljQ | Marina Reizberg |
+   | `resources/agency/img/team/member-1.jpg` | https://unsplash.com/photos/Hcfwew744z4 | Christin Hume |
+   | `resources/agency/img/team/member-2.jpg` | https://unsplash.com/photos/vZJdYl5JVXY | Kaitlyn Baker |
+   | `resources/agency/img/team/member-3.jpg` | https://unsplash.com/photos/_UeY8aTI6d0 | Sergey Zolkin |
+   | `resources/admin/img/auth-login.jpg` | https://unsplash.com/photos/s-5usW1C-r0 | Miguel Joya |
+   | `resources/admin/img/auth-register.jpg` | https://unsplash.com/photos/ItvVUpgac0o | Simone Hutsch |
+   | `resources/admin/img/auth-password.jpg` | https://unsplash.com/photos/0B7ijYKaKcE | Alesia Kazantceva |
+
+   The team photos show only hands at a laptop, with no faces. The portfolio photos avoid third-party logos. `resources/agency/img/world-map.png` is in-house, drawn from [Natural Earth](https://www.naturalearthdata.com/) data (public domain; credit optional).
 
 ### Phase 6 – No third-party requests (fonts and placeholders)
 

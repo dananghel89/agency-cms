@@ -164,7 +164,7 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="close-modal" data-bs-dismiss="modal">
-                        <img src="{{ Vite::asset('resources/agency/img/close-icon.svg') }}" alt="{{ __('Close modal') }}">
+                        <i class="fas fa-times fa-3x" aria-hidden="true"></i><span class="visually-hidden">{{ __('Close modal') }}</span>
                     </div>
                     <div class="container">
                         <div class="row justify-content-center">
