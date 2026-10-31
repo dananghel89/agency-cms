@@ -52,6 +52,24 @@ class HomePageTest extends TestCase
         $this->get('/')->assertSeeInOrder(['First service', 'Second service']);
     }
 
+    public function test_social_links_show_only_saved_http_links(): void
+    {
+        Options::factory()->create([
+            'name' => 'social_links',
+            'value' => json_encode(['facebook' => 'https://www.facebook.com/agency', 'twitter' => '']),
+        ]);
+        Team::factory()->create([
+            'social_links' => ['linkedin' => 'javascript:alert(1)', 'twitter' => 'https://www.twitter.com/member'],
+        ]);
+
+        $this->get('/')
+            ->assertOk()
+            ->assertSee('href="https://www.facebook.com/agency"', false)
+            ->assertSee('href="https://www.twitter.com/member"', false)
+            ->assertDontSee('javascript:alert(1)', false)
+            ->assertDontSee('aria-label="LinkedIn"', false);
+    }
+
     public function test_home_page_title_uses_the_site_title_option(): void
     {
         Options::factory()->create(['name' => 'site_title', 'value' => 'My Agency']);

@@ -20,18 +20,19 @@ class UserSeeder extends Seeder
             [
                 'name' => 'Admin',
                 'email' => Options::userEmails()->get('admin'),
-                'password' => Hash::make('password'),
+                'password' => Hash::make(config('sb.seed.admin_password')),
             ],
             // [
             //     'name' => 'Editor',
             //     'email' => Options::userEmails()->get('editor'),
-            //     'password' => Hash::make('password'),
+            //     'password' => Hash::make(config('sb.seed.admin_password')),
             // ],
         ];
 
         foreach ($data as $item) {
             $item += [
                 'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
             ];
 
             DB::table('users')->insert($item);

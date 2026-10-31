@@ -53,6 +53,19 @@ class ContactFormTest extends TestCase
         Mail::assertSent(ContactForm::class, fn (ContactForm $mail) => $mail->hasTo('owner@example.com'));
     }
 
+    public function test_an_email_typed_with_capitals_is_accepted_and_stored_in_lowercase(): void
+    {
+        Volt::test('pages.contact')
+            ->set('name', 'Ana Garcia')
+            ->set('email', '  Ana@Example.COM ')
+            ->set('phone', '612345678')
+            ->set('message', 'Hello, I would like a quote.')
+            ->call('submit')
+            ->assertHasNoErrors();
+
+        $this->assertDatabaseHas('contacts', ['email' => 'ana@example.com']);
+    }
+
     public function test_no_mail_is_sent_when_the_admin_email_is_empty(): void
     {
         Options::factory()->create(['name' => 'admin_email', 'value' => '']);

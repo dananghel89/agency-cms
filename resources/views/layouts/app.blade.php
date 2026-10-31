@@ -33,7 +33,7 @@
         <x-footer />
 
         <!-- Bootstrap core JS -->
-        <script src="{{ asset('vendor/jquery/jquery.slim.min.js') }}"></script>
+        {{-- <script src="{{ asset('vendor/jquery/jquery.slim.min.js') }}"></script> --}}
         <script src="{{ asset('vendor/bootstrap-5/js/bootstrap.bundle.min.js') }}"></script>
     </body>
 </html>

@@ -4,6 +4,12 @@ return [
     'admin_title' => 'SB Admin',
     'date_format' => 'j M Y G:i:s',
 
+    'seed' => [
+        'admin_email' => env('SEED_ADMIN_EMAIL', 'admin@example.com'),
+        'admin_password' => env('SEED_ADMIN_PASSWORD', 'password'),
+        'editor_email' => env('SEED_EDITOR_EMAIL', 'editor@example.com'),
+    ],
+
     'sidebar_nav' => [
         ['dashboard', 'Dashboard', 'tachometer-alt'],
         ['pages', 'Pages', 'file-alt', 'interface', 'pages.index'],
@@ -23,7 +29,7 @@ return [
 
     'options' => [
         'site_title' => 'Start Bootstrap',
-        'admin_email' => 'admin@example.com',
+        'admin_email' => env('SB_ADMIN_EMAIL', 'admin@example.com'),
         'social_links' => null,
     ],
 ];

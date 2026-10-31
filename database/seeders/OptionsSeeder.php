@@ -22,7 +22,7 @@ class OptionsSeeder extends Seeder
             ],
             [
                 'name' => 'admin_email',
-                'value' => Options::userEmails()->get('admin'),
+                'value' => config('sb.options.admin_email'),
             ],
             [
                 'name' => 'social_links',
@@ -31,10 +31,9 @@ class OptionsSeeder extends Seeder
         ];
 
         foreach ($data as $item) {
-            unset( $item['array'] );
-
             $item += [
                 'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
             ];
 
             DB::table('options')->insert($item);

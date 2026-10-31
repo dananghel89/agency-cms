@@ -1,23 +1,17 @@
 @props(['item'])
 
-@if ($item)
+@php
+    $links = App\Models\Options::socialNetworks()
+        ->map(fn ($network) => $network + ['link' => $item[$network['name']] ?? null])
+        ->filter(fn ($network) => is_string($network['link']) && preg_match('#^https?://#i', $network['link']));
+@endphp
+
+@if ($links->isNotEmpty())
     <div {{ $attributes->merge(['class' => 'social-links']) }}>
-        @empty(!$item['facebook'])
-        <a class="btn btn-dark btn-social mx-2" href="{{ $item['facebook'] }}" target="_blank" aria-label="Facebook">
-            <i class="fab fa-facebook-f"></i>
-        </a>
-        @endempty
-
-        @empty(!$item['twitter'])
-        <a class="btn btn-dark btn-social mx-2" href="{{ $item['twitter'] }}" target="_blank" aria-label="Twitter">
-            <i class="fab fa-twitter"></i>
-        </a>
-        @endempty
-
-        @empty(!$item['linkedin'])
-        <a class="btn btn-dark btn-social mx-2" href="{{ $item['linkedin'] }}" target="_blank" aria-label="LinkedIn">
-            <i class="fab fa-linkedin-in"></i>
-        </a>
-        @endempty
+        @foreach ($links as $network)
+            <a class="btn btn-dark btn-social mx-2" href="{{ $network['link'] }}" target="_blank" rel="noopener" aria-label="{{ $network['label'] }}">
+                <i class="fab {{ $network['icon'] }}"></i>
+            </a>
+        @endforeach
     </div>
 @endif

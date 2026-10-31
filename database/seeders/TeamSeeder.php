@@ -36,6 +36,7 @@ class TeamSeeder extends Seeder
             $item += [
                 'social_links' => $socialLinks,
                 'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
             ];
 
             DB::table('team')->insert($item);

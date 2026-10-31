@@ -7,7 +7,6 @@ use Illuminate\Validation\Rule;
 new class extends Component
 {
     public $item;
-    public $delete;
 
     public string $key = '';
     public string $replace = '';
@@ -22,7 +21,7 @@ new class extends Component
 
     public function mount(): void
     {
-        if (!$this->item || $this->delete) return;
+        if (!$this->item) return;
 
         $this->key = $this->item->key;
         $this->replace = $this->item->replace;
@@ -64,8 +63,6 @@ new class extends Component
     }
 }; ?>
 
-@if (!$delete)
-
 <div class="card-wrapper">
 
 <div class="card shadow mb-4">
@@ -101,11 +98,3 @@ new class extends Component
 </div>
 
 </div>
-
-@else
-
-<div>
-    //
-</div>
-
-@endif

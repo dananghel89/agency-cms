@@ -13,7 +13,7 @@ class PortfolioController extends BaseController
             'items' => Portfolio::all(),
         ];
 
-        return view('admin.porfolio.index', $data);
+        return view('admin.portfolio.index', $data);
     }
 
     public function create(): View

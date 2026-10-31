@@ -4,6 +4,7 @@ use Livewire\Volt\Component;
 use App\Models\Contact;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Support\Str;
 use App\Mail\ContactForm;
 
 new class extends Component
@@ -27,25 +28,23 @@ new class extends Component
             return;
         }
 
+        $this->email = Str::lower(trim((string) $this->email));
+
         $validated = $this->validate([
             'name' => ['required', 'string', 'max:100'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255'],
             'phone' => ['required', 'numeric', 'digits:9'],
             'message' => ['required', 'string', 'min:5', 'max:300'],
         ]);
 
-        $contact = Contact::create($validated);
+        Contact::create($validated);
 
         RateLimiter::hit($throttleKey, 600);
 
-        if ($contact->wasRecentlyCreated) {
-            $this->sendMail();
-            $this->reset(['name', 'email', 'phone', 'message']);
+        $this->sendMail();
+        $this->reset(['name', 'email', 'phone', 'message']);
 
-            $this->dispatch('contact-success');
-        } else {
-            $this->dispatch('contact-failure');
-        }
+        $this->dispatch('contact-success');
     }
 
     public function sendMail()
@@ -107,14 +106,6 @@ new class extends Component
                 <div id="submitSuccessMessage">
                     <div class="text-center text-white mb-3">
                         <div class="fw-bolder">{{ __('Form submission successful!') }}</div>
-                    </div>
-                </div>
-            </x-common.message-flash>
-
-            <x-common.message-flash on="contact-failure">
-                <div id="submitErrorMessage">
-                    <div class="text-center text-danger mb-3">
-                        {{ __('Error sending message!') }}
                     </div>
                 </div>
             </x-common.message-flash>

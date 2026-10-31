@@ -18,8 +18,8 @@ class Options extends Model
     public static function userEmails(): Collection
     {
         return collect([
-            'admin' => 'admin@example.com',
-            'editor' => 'editor@example.com',
+            'admin' => config('sb.seed.admin_email'),
+            'editor' => config('sb.seed.editor_email'),
         ]);
     }
 
@@ -28,16 +28,19 @@ class Options extends Model
         return collect([
             [
                 'name' => 'facebook',
+                'label' => 'Facebook',
                 'url' => 'https://www.facebook.com/',
                 'icon' => 'fa-facebook-f',
             ],
             [
                 'name' => 'twitter',
+                'label' => 'Twitter',
                 'url' => 'https://www.twitter.com/',
                 'icon' => 'fa-twitter',
             ],
             [
                 'name' => 'linkedin',
+                'label' => 'LinkedIn',
                 'url' => 'https://www.linkedin.com/',
                 'icon' => 'fa-linkedin-in',
             ],

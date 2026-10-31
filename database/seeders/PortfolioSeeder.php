@@ -58,6 +58,7 @@ class PortfolioSeeder extends Seeder
                 'subtitle' => $subtitle,
                 'content' => $content,
                 'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
             ];
 
             DB::table('portfolio')->insert($item);

@@ -64,7 +64,8 @@ class AuthenticationTest extends TestCase
 
         Volt::test('auth.logout')
             ->call('logout')
-            ->assertHasNoErrors();
+            ->assertHasNoErrors()
+            ->assertRedirect(route('login'));
 
         $this->assertGuest();
     }

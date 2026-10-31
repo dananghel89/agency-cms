@@ -9,7 +9,7 @@
     <div
         x-data="{ shown: false, timeout: null }"
         x-on:{{ $on }}.window="clearTimeout(timeout); shown = true; timeout = setTimeout(() => { shown = false }, 2000);"
-        x-show.transition.out.opacity.duration.1500ms="shown"
+        x-show="shown"
         x-transition:leave.opacity.duration.1500ms
         style="display: none;"
         {{ $attributes->merge($values) }}
@@ -20,8 +20,8 @@
 @else
     <div
         x-data="{ shown: true }"
-        x-show="shown" x-init="setTimeout(() => shown = false, 2000)"
-        x-show.transition.out.opacity.duration.1500ms="shown"
+        x-show="shown"
+        x-init="setTimeout(() => shown = false, 2000)"
         x-transition:leave.opacity.duration.1500ms
         style="display: none;"
         {{ $attributes->merge($values) }}
