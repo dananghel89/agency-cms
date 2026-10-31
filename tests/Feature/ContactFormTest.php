@@ -1,0 +1,75 @@
+<?php
+
+namespace Tests\Feature;
+
+use App\Mail\ContactForm;
+use App\Models\Options;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Mail;
+use Livewire\Volt\Volt;
+use Tests\TestCase;
+
+class ContactFormTest extends TestCase
+{
+    use RefreshDatabase;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        Mail::fake();
+    }
+
+    public function test_contact_form_is_validated(): void
+    {
+        Volt::test('pages.contact')
+            ->call('submit')
+            ->assertHasErrors([
+                'name' => 'required',
+                'email' => 'required',
+                'phone' => 'required',
+                'message' => 'required',
+            ]);
+
+        $this->assertDatabaseCount('contacts', 0);
+        Mail::assertNothingSent();
+    }
+
+    public function test_a_valid_message_is_stored_and_mailed_to_the_admin(): void
+    {
+        Options::factory()->create(['name' => 'admin_email', 'value' => 'owner@example.com']);
+
+        $this->submitValidMessage()
+            ->assertHasNoErrors()
+            ->assertDispatched('contact-success')
+            ->assertSet('name', null);
+
+        $this->assertDatabaseHas('contacts', [
+            'name' => 'Ana Garcia',
+            'email' => 'ana@example.com',
+            'phone' => '612345678',
+        ]);
+
+        Mail::assertSent(ContactForm::class, fn (ContactForm $mail) => $mail->hasTo('owner@example.com'));
+    }
+
+    public function test_no_mail_is_sent_when_the_admin_email_is_empty(): void
+    {
+        Options::factory()->create(['name' => 'admin_email', 'value' => '']);
+
+        $this->submitValidMessage()->assertHasNoErrors();
+
+        $this->assertDatabaseCount('contacts', 1);
+        Mail::assertNothingSent();
+    }
+
+    private function submitValidMessage()
+    {
+        return Volt::test('pages.contact')
+            ->set('name', 'Ana Garcia')
+            ->set('email', 'ana@example.com')
+            ->set('phone', '612345678')
+            ->set('message', 'Hello, I would like a quote.')
+            ->call('submit');
+    }
+}

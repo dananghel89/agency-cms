@@ -3,7 +3,6 @@
 namespace Tests\Feature\Auth;
 
 use App\Models\User;
-use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Volt\Volt;
 use Tests\TestCase;
@@ -14,73 +13,58 @@ class AuthenticationTest extends TestCase
 
     public function test_login_screen_can_be_rendered(): void
     {
-        $response = $this->get('/login');
-
-        $response
+        $this->get('/login')
             ->assertOk()
-            ->assertSeeVolt('pages.auth.login');
+            ->assertSeeVolt('auth.login');
     }
 
     public function test_users_can_authenticate_using_the_login_screen(): void
     {
         $user = User::factory()->create();
 
-        $component = Volt::test('pages.auth.login')
+        Volt::test('auth.login')
             ->set('form.email', $user->email)
-            ->set('form.password', 'password');
-
-        $component->call('login');
-
-        $component
+            ->set('form.password', 'password')
+            ->call('login')
             ->assertHasNoErrors()
-            ->assertRedirect(RouteServiceProvider::HOME);
+            ->assertRedirect(route('dashboard'));
 
-        $this->assertAuthenticated();
+        $this->assertAuthenticatedAs($user);
     }
 
     public function test_users_can_not_authenticate_with_invalid_password(): void
     {
         $user = User::factory()->create();
 
-        $component = Volt::test('pages.auth.login')
+        Volt::test('auth.login')
             ->set('form.email', $user->email)
-            ->set('form.password', 'wrong-password');
-
-        $component->call('login');
-
-        $component
-            ->assertHasErrors()
+            ->set('form.password', 'wrong-password')
+            ->call('login')
+            ->assertHasErrors('email')
             ->assertNoRedirect();
 
         $this->assertGuest();
     }
 
-    public function test_navigation_menu_can_be_rendered(): void
+    public function test_guests_are_redirected_from_the_admin_to_the_login(): void
     {
-        $user = User::factory()->create();
+        $this->get('/admin')->assertRedirect(route('login'));
+    }
 
-        $this->actingAs($user);
-
-        $response = $this->get('/dashboard');
-
-        $response
-            ->assertOk()
-            ->assertSeeVolt('layout.navigation');
+    public function test_authenticated_users_are_redirected_from_the_login_to_the_dashboard(): void
+    {
+        $this->actingAs(User::factory()->create())
+            ->get('/login')
+            ->assertRedirect(route('dashboard'));
     }
 
     public function test_users_can_logout(): void
     {
-        $user = User::factory()->create();
+        $this->actingAs(User::factory()->create());
 
-        $this->actingAs($user);
-
-        $component = Volt::test('layout.navigation');
-
-        $component->call('logout');
-
-        $component
-            ->assertHasNoErrors()
-            ->assertRedirect('/');
+        Volt::test('auth.logout')
+            ->call('logout')
+            ->assertHasNoErrors();
 
         $this->assertGuest();
     }

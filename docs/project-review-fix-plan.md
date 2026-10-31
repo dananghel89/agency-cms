@@ -1,6 +1,6 @@
 # Project review and fix plan
 
-Status: **Draft – not started**
+Status: **In progress** – Phase A done (af5bcff), Phase B done
 Created: 2026-10-31
 Runs **first**. Then [theme-licensing-plan.md](theme-licensing-plan.md), then [github-migration-plan.md](github-migration-plan.md), then [laravel-13-upgrade-plan.md](laravel-13-upgrade-plan.md), then [finish-project-plan.md](finish-project-plan.md). The upgrade plan's Phase 1 (helpers fix, lazy options, test suite) moved into this plan.
 
