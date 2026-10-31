@@ -57,7 +57,7 @@ Node is 24.21 locally, which meets Vite 8's requirement (`^20.19 || >=22.12`).
 1. **Safety net first:** the review plan (prerequisite) leaves `master` with a green test suite on Laravel 10 / Livewire 3 / PHP 8.1. Phase 1 below only confirms it.
 2. **Upgrade one major version at a time** (10 → 11 → 12 → 13) on PHP 8.4 CLI. Each phase must keep the suite green.
 3. Then the **structure migration**, the **Livewire 4** upgrade and the **Vite** upgrade, as separate phases.
-4. Each phase ends with `php artisan test`, the smoke checklist (section 5) and a commit pushed directly to `master` (commits only with your approval).
+4. Each phase ends with `php artisan test`, the smoke checklist (section 5) and a commit pushed directly to `master`, only after you confirm it (I show the files and message first).
 
 Each official upgrade guide is small (10–15 min), so if a phase turns the suite red, it's clear which change caused it.
 

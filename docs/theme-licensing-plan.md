@@ -52,7 +52,7 @@ Plan order in `docs/`:
 | `resources/agency/img/close-icon.svg` | Agency theme | Fine under MIT, but unnecessary | Phase 5: replace with the Font Awesome `fa-times` icon |
 | `resources/admin/img/undraw_*.svg` (7 files) | unDraw | Redistribution ban; only `undraw_profile.svg` is used | Phase 3: remove; avatar → `fa-user-circle` |
 | `https://placehold.co/…` (4 places in `pages/home.blade.php`) | External service | Visitor IPs are sent to a third party | Phase 6: local placeholder SVGs |
-| `public/favicon.png` | **Not yours** (confirmed 2026-10-31) | Unknown origin | Phase 4: replace with the in-house favicon (yellow `#ffc800` square, white "A"), already generated as `public/favicon.svg`, `favicon-32x32.png`, `apple-touch-icon.png`; delete `favicon.png` |
+| `public/favicon.png` | **Not yours** (confirmed 2026-10-31) | Unknown origin | **Done 2026-10-31:** replaced by the in-house favicon (yellow `#ffc800` square, white "A"): `public/favicon.ico` (16/32/48 px), `favicon.svg`, `apple-touch-icon.png`, linked in all three layouts; `favicon.png` deleted |
 
 ### 2.3 Fonts
 
@@ -78,8 +78,8 @@ Plan order in `docs/`:
 
 ### Phase 0 – Decisions
 
-1. The review plan is finished on `master`. Work directly on `master`: commit and push each step, with no feature branch.
-2. Decisions (confirmed 2026-10-31): project name **Agency CMS** (`agency-cms`); license **MIT** (`Copyright (c) <year> Dan Anghel`); `public/favicon.png` is **not** your own, so it is replaced in Phase 4.
+1. The review plan is finished on `master`. Work directly on `master`: commit and push each step only after you confirm it (I show the files and message first), with no feature branch.
+2. Decisions (confirmed 2026-10-31): project name **Agency CMS** (`agency-cms`); license **MIT** (`Copyright (c) <year> Dan Anghel`); `public/favicon.png` was **not** your own and is already replaced (see section 2).
 3. The local folder `start-bootstrap`, the WAMP vhost `start-bootstrap.test` and the DB name `start_bootstrap` **stay as they are**: these are internal, not public branding. Claude's project memory is also tied to the folder path. Renaming them is optional and separate.
 
 ### Phase 1 – Remove the theme downloads
@@ -131,7 +131,6 @@ Replace every visible "Start Bootstrap" / "SB Admin" name with **Agency CMS**:
 | `resources/views/components/navbar.blade.php` | Replace `<img navbar-logo.svg>` with a **text logo**: `{{ option('site_title') }}` in the brand style (font and colour via SCSS). It's editable and needs no image. Then delete `navbar-logo.svg` |
 | `composer.json` | `"name": "dananghel89/agency-cms"`, real `description`, `"license": "MIT"` |
 | `package.json` | Add `"name": "agency-cms"` and `"license": "MIT"` |
-| `layouts/{app,admin,guest}.blade.php` | Favicon links: `<link rel="icon" href="{{ asset('favicon.svg') }}" type="image/svg+xml">`, `<link rel="icon" href="{{ asset('favicon-32x32.png') }}" sizes="32x32" type="image/png">`, `<link rel="apple-touch-icon" href="{{ asset('apple-touch-icon.png') }}">`. Then `git rm public/favicon.png` |
 | `README.md` | Project name, plus a "Credits" section: "Admin and public themes based on [SB Admin 2](https://startbootstrap.com/theme/sb-admin-2) and [Agency](https://startbootstrap.com/theme/agency) by Start Bootstrap, MIT. This project is not affiliated with Start Bootstrap LLC." |
 | GitHub repo name | `dananghel89/agency-cms`, already updated in the migration plan |
 

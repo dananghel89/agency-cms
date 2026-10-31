@@ -89,7 +89,7 @@ All Blade views compile (`php81 artisan view:cache` succeeded), so there are no 
 
 ### Phase A – Safety first (no behaviour change)
 
-1. Work directly on `master`: commit and push each step, with no feature branch. Back up the database (section 2).
+1. Work directly on `master`: commit and push each step only after you confirm it (I show the files and message first), with no feature branch. Back up the database (section 2).
 2. **R01:** in `phpunit.xml`, enable `<env name="DB_CONNECTION" value="sqlite"/>` and `<env name="DB_DATABASE" value=":memory:"/>`. From now on, running tests is safe.
 3. **R04:** in `composer.json`, set `"autoload": { "files": ["app/Project/Helpers.php"], … }` and remove the `require_once` from `AppServiceProvider::register()`. Then `php81 composer.phar dump-autoload`.
 4. **R03:** make options lazy.
