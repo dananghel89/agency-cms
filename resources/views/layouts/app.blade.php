@@ -9,7 +9,9 @@
         <title>@yield('title') | {{ option('site_title') }}</title>
 
         <!-- Favicon -->
-        <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}">
+        <link rel="icon" href="{{ asset('favicon.ico') }}" sizes="48x48">
+        <link rel="icon" href="{{ asset('favicon.svg') }}" type="image/svg+xml">
+        <link rel="apple-touch-icon" href="{{ asset('apple-touch-icon.png') }}">
 
         <!-- Font Awesome -->
         <link href="{{ asset('vendor/fontawesome/css/all.min.css') }}" rel="stylesheet">
