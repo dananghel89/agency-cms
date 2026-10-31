@@ -1,6 +1,6 @@
 # Plan: legal use of the Start Bootstrap themes and bundled assets
 
-Status: **Draft – not started**
+Status: **In progress** – Phase 1 done
 Created: 2026-10-31
 
 > This plan is a technical compliance checklist based on the published license texts. It is not legal advice. If the site is used commercially for a client, have the final inventory (section 2) reviewed by a lawyer.
