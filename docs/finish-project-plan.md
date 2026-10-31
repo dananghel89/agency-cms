@@ -147,7 +147,7 @@ The admin list columns are updated to show the new fields: a thumbnail for image
    - sidebar entry `['clients', 'Clients', 'handshake', 'interface', 'clients.index']` in `config/project.php`
    - resource routes and controller
    - list and form: `name` required · `url` nullable `url` · `image` **required on create**, `image|mimes:jpg,jpeg,png,webp|max:1024`
-3. **SVG:** admin uploads are raster-only: jpg/png/webp (decided 2026-10-31). An uploaded SVG can carry scripts when opened directly from the same domain. `ClientSeeder` seeds **in-house placeholder logos** (simple SVGs made for this project, e.g. "Client A"–"Client D"; trusted, so SVG is fine). **Never real company logos**: the licensing plan removed the Microsoft/Google/Facebook/IBM logos as trademarks. Real client logos are uploaded later by the site owner, who must have the client's permission.
+3. **SVG:** admin uploads are raster-only: jpg/png/webp (decided 2026-10-31). An uploaded SVG can carry scripts when opened directly from the same domain. `ClientSeeder` seeds **in-house placeholder logos** (simple SVGs made for this project, the existing `resources/agency/img/clients/client-1…4.svg`; trusted, so SVG is fine). **Never real company logos**: the licensing plan removed the Microsoft/Google/Facebook/IBM logos as trademarks. Real client logos are uploaded later by the site owner, who must have the client's permission.
 4. Home "Clients" section: loop over `Client::published()->orderBy('position')`, link only when `url` is set, and hide the section when there are no clients.
 5. Dashboard counter for Clients.
 6. Tests: CRUD, the raster-only upload rule, and the home section showing published clients.

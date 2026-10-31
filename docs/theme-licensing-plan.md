@@ -1,6 +1,6 @@
 # Plan: legal use of the Start Bootstrap themes and bundled assets
 
-Status: **In progress** – Phase 1 done (903d405), Phase 2 done
+Status: **In progress** – Phase 1 done (903d405), Phase 2 done (f430cef), Phase 3 done
 Created: 2026-10-31
 
 > This plan is a technical compliance checklist based on the published license texts. It is not legal advice. If the site is used commercially for a client, have the final inventory (section 2) reviewed by a lawyer.
@@ -21,7 +21,7 @@ Plan order in `docs/`:
 | Theme photos (no stated license) | **Replace with licensed stock** (Unsplash/Pexels), recording each file's source in a credits section |
 | "Start Bootstrap" name and logo | **Rename to a neutral name:** **"Agency CMS"** (`agency-cms`), confirmed 2026-10-31. Add a credit line ("based on Start Bootstrap themes, MIT") in the README/notices |
 | `public/demo/admin`, `public/demo/agency` | **Delete** from the repo now, and from the history during the GitHub migration |
-| Trademarked client logos (Microsoft, Google, Facebook, IBM) | **Remove.** Using them suggests these companies are clients |
+| Trademarked client logos (Microsoft, Google, Facebook, IBM) | **Remove.** Using them suggests these companies are clients. The Clients section stays, with in-house placeholder logos (decided 2026-10-31) |
 | unDraw illustrations | **Remove.** The unDraw license forbids redistributing them "in packs or otherwise", which a public repo does. The one used (the admin avatar) becomes a Font Awesome icon |
 | Google Fonts and `placehold.co` | **Self-host.** Loading them from third-party servers sends visitors' IP addresses to those servers; LG München I, 20.01.2022, 3 O 17493/20 held this unlawful without consent |
 | Third-party libraries | Keep. All are permissive. Add the missing license files and a `THIRD_PARTY_NOTICES.md` |
@@ -48,7 +48,7 @@ Plan order in `docs/`:
 | `resources/admin/img/{login,register,password}-image.jpg` | Unknown (600×800, edited in Photoshop, no metadata) | No known source | Phase 5: replace |
 | `resources/agency/img/map-image.png` | Agency theme | No stated license | Phase 5: remove (the contact section keeps its dark background) |
 | `resources/agency/img/navbar-logo.svg` | Agency theme | The theme's default logo (looks like the Start Bootstrap wordmark), a brand you don't own | Phase 4: replace with a text logo |
-| `resources/agency/img/logos/{microsoft,google,facebook,ibm}.svg` | Agency theme | **Third-party trademarks**, shown as "clients" | Phase 3: remove |
+| `resources/agency/img/logos/{microsoft,google,facebook,ibm}.svg` | Agency theme | **Third-party trademarks**, shown as "clients" | Phase 3: remove; replace with in-house `img/clients/client-1…4.svg` |
 | `resources/agency/img/close-icon.svg` | Agency theme | Fine under MIT, but unnecessary | Phase 5: replace with the Font Awesome `fa-times` icon |
 | `resources/admin/img/undraw_*.svg` (7 files) | unDraw | Redistribution ban; only `undraw_profile.svg` is used | Phase 3: remove; avatar → `fa-user-circle` |
 | `https://placehold.co/…` (4 places in `pages/home.blade.php`) | External service | Visitor IPs are sent to a third party | Phase 6: local placeholder SVGs |
@@ -117,7 +117,7 @@ Plan order in `docs/`:
    - `jquery.easing.compatibility.js`
 
    Keep `public/vendor/jquery/jquery.slim*`: its `<script>` tag in `layouts/app.blade.php` is commented out (review-plan R25), not removed, so it can be switched back on.
-4. **Trademarked logos:** delete `resources/agency/img/logos/*.svg`. Hide the home **Clients** section until the finish plan's Clients feature exists. That plan seeds neutral, self-made placeholder logos, never real brands.
+4. **Trademarked logos:** delete `resources/agency/img/logos/*.svg`. The home **Clients** section stays and shows 4 in-house placeholder logos, `resources/agency/img/clients/client-1…4.svg` (a grey shape plus "CLIENT ONE"…"CLIENT FOUR"). They live in a new folder because the GitHub migration purges `img/logos/`. The finish plan's Clients feature seeds the same files, never real brands.
 5. **unDraw:** delete `resources/admin/img/undraw_*.svg`. The topbar avatar becomes `<i class="fas fa-user-circle fa-2x text-gray-400"></i>`.
 
 ### Phase 4 – Rebrand (neutral name)
