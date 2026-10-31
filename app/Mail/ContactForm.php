@@ -3,11 +3,10 @@
 namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
+use Illuminate\Mail\Mailables\Address;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
-use Illuminate\Mail\Mailables\Address;
 use Illuminate\Queue\SerializesModels;
 
 class ContactForm extends Mailable
@@ -22,7 +21,8 @@ class ContactForm extends Mailable
         protected $email,
         protected $phone,
         protected $message,
-    ) {}
+    ) {
+    }
 
     /**
      * Get the message envelope.
@@ -31,7 +31,7 @@ class ContactForm extends Mailable
     {
         return new Envelope(
             replyTo: [
-                new Address($this->email, $this->name)
+                new Address($this->email, $this->name),
             ],
             subject: 'Contact Form',
         );

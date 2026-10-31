@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Illuminate\View\View;
 use App\Models\Team;
+use Illuminate\View\View;
 
 class TeamController extends BaseController
 {

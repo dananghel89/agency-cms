@@ -27,7 +27,9 @@ class TranslationController extends BaseController
             'item' => Translation::find($id),
         ];
 
-        if (empty($data['item'])) abort(404);
+        if (empty($data['item'])) {
+            abort(404);
+        }
 
         return view('admin.strings.edit', $data);
     }

@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Team;
-use App\Models\Service;
-use App\Models\Timeline;
 use App\Models\Portfolio;
+use App\Models\Service;
+use App\Models\Team;
+use App\Models\Timeline;
 use Illuminate\View\View;
 
 class HomeController extends Controller

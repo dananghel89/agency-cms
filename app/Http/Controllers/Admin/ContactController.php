@@ -22,7 +22,9 @@ class ContactController extends BaseController
             'item' => Contact::find($id),
         ];
 
-        if (empty($data['item'])) abort(404);
+        if (empty($data['item'])) {
+            abort(404);
+        }
 
         return view('admin.contacts.show', $data);
     }
