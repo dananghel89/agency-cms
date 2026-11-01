@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'admin_title' => 'Agency CMS Admin',
+    'admin_title' => 'Agency CMS',
     'date_format' => 'j M Y G:i:s',
 
     'seed' => [

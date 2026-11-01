@@ -143,11 +143,18 @@
 <div class="py-5" id="clients">
     <div class="container">
         <div class="row align-items-center">
-            @foreach (['One', 'Two', 'Three', 'Four'] as $i => $name)
-                <div class="col-md-3 col-sm-6 my-3">
-                    <img class="img-fluid img-brand d-block mx-auto" src="{{ Vite::asset('resources/agency/img/clients/client-'.($i + 1).'.svg') }}" alt="Client {{ $name }}">
-                </div>
-            @endforeach
+            <div class="col-md-3 col-sm-6 my-3">
+                <a href="javascript:void(0)"><img class="img-fluid img-brand d-block mx-auto" src="{{ Vite::asset('resources/agency/img/logos/microsoft.svg') }}" alt="Microsoft Logo"></a>
+            </div>
+            <div class="col-md-3 col-sm-6 my-3">
+                <a href="javascript:void(0)"><img class="img-fluid img-brand d-block mx-auto" src="{{ Vite::asset('resources/agency/img/logos/google.svg') }}" alt="Google Logo"></a>
+            </div>
+            <div class="col-md-3 col-sm-6 my-3">
+                <a href="javascript:void(0)"><img class="img-fluid img-brand d-block mx-auto" src="{{ Vite::asset('resources/agency/img/logos/facebook.svg') }}" alt="Facebook Logo"></a>
+            </div>
+            <div class="col-md-3 col-sm-6 my-3">
+                <a href="javascript:void(0)"><img class="img-fluid img-brand d-block mx-auto" src="{{ Vite::asset('resources/agency/img/logos/ibm.svg') }}" alt="IBM Logo"></a>
+            </div>
         </div>
     </div>
 </div>
@@ -164,7 +171,7 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="close-modal" data-bs-dismiss="modal">
-                        <i class="fas fa-times fa-3x" aria-hidden="true"></i><span class="visually-hidden">{{ __('Close modal') }}</span>
+                        <img src="{{ Vite::asset('resources/agency/img/close-icon.svg') }}" alt="{{ __('Close modal') }}">
                     </div>
                     <div class="container">
                         <div class="row justify-content-center">

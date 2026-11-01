@@ -41,8 +41,6 @@ Tests run on an in-memory SQLite database (see `phpunit.xml`), so they never tou
 
 The admin and public themes are based on [SB Admin 2](https://startbootstrap.com/theme/sb-admin-2) and [Agency](https://startbootstrap.com/theme/agency) by Start Bootstrap, licensed under MIT. This project is not affiliated with Start Bootstrap LLC.
 
-See [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) for all bundled libraries, fonts and images.
-
 ## License
 
 Agency CMS is open-source software licensed under the [MIT License](LICENSE).
