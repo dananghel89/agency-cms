@@ -22,14 +22,14 @@ Plan order in `docs/`:
 | Visibility | **Public**, but only after you review it as a visitor. It is created **private** first |
 | Commit identity | Every commit (author **and** committer): `Dan Anghel <7040327+dananghel89@users.noreply.github.com>`. Your gmail is never used (your per-host email rule) |
 | Commit messages | One-line `type: description`. The original 3 commits are renamed (section 3); commits from the review plan are already written in this style |
-| History scrub | Every past commit: the old demo password → `password`, the old personal-domain emails → `admin@example.com` / `editor@example.com`, and the old `<meta name="author">` line is deleted. The old domain is not written anywhere in the repo; 4.3 reads it from the history |
+| History scrub | Every past commit: the old demo password → `password`; the old personal-domain emails → `admin@example.com` / `editor@example.com`; any other mention of the old domain (any letter case, also written as `name\.tld`) → `example.com`; your gmail address in file contents → `old-email@example.com`; the old `<meta name="author" content=…>` line is deleted. None of these values is written in the repo; 4.3 reads them from the history |
 | History purge | Removed from every past commit: `public/demo/` (the static theme demos, 23 MB, removed from the repo 2026-11-01) and the old `public/favicon.png` (not your artwork). The theme assets used by the app are MIT demo content and stay |
 | Bitbucket | **Deleted** after GitHub is verified (you do this in the browser). Until then it is the fallback |
 | Tools | Standard git only (`git filter-branch`, `git bundle`). `gh` and `git filter-repo` are not installed and are not needed. GitHub steps happen in the browser |
 
 ### What the history contains today (checked 2026-10-31)
 
-- 4 commits on `master`, **all** authored and committed as `Dan Anghel <old-email@example.com>`. The review plan adds more commits with `dev@dananghel.com` (the local identity while the remote is Bitbucket).
+- The first 4 commits on `master` are authored and committed with your gmail address. The review plan adds more commits with `dev@dananghel.com` (the local identity while the remote is Bitbucket).
 - No `.env` was ever committed, and there are no API keys or tokens. The `secret`/`token` hits are framework config and env references only.
 - Personal data in file contents:
   - the old admin/editor emails on a personal domain (`app/Models/Options.php`, `config/sb.php`)
@@ -89,11 +89,30 @@ Run in Git Bash from the repo root. The command rewrites `master` only and keeps
 
 ```bash
 export FILTER_BRANCH_SQUELCH_WARNING=1
-# the old seed password and email domain, read from the commit before the seeds moved to .env
+# the old values, read from the history (never written in the repo)
 export OLD_PASS=$(git show d02f8ca^:database/seeders/UserSeeder.php | grep -oP "Hash::make\('\K[^']+" | head -1)
 export OLD_DOMAIN=$(git show d02f8ca^:config/sb.php | grep -oP "admin@\K[a-z.]+" | head -1)
-echo "$OLD_PASS / $OLD_DOMAIN"   # check both are filled before running
-git -c core.autocrlf=false filter-branch --force \
+export OLD_EMAIL=$(git log -1 --format=%ae 186a052)
+echo "$OLD_PASS / $OLD_DOMAIN / $OLD_EMAIL"   # check all three are filled before running
+
+# the tree filter lives outside the repo, so its quoting stays simple
+cat > ../scrub-history.sh <<'EOF'
+rm -rf public/demo public/favicon.png
+name=${OLD_DOMAIN%%.*}; tld=${OLD_DOMAIN#*.}
+dom="$name\\\\?\\.$tld"            # matches name.tld and name\.tld
+grep -rlIZ -i --exclude-dir=vendor --exclude-dir=node_modules \
+  -e "$OLD_PASS" -e "$name.\{0,2\}$tld" -e "$OLD_EMAIL" . 2>/dev/null \
+| xargs -0 -r sed -i -E \
+    -e "s/$OLD_PASS/password/g" \
+    -e "/<meta name=\"author\" content=/d" \
+    -e "s/admin@$dom/admin@example.com/gI" \
+    -e "s/editor@$dom/editor@example.com/gI" \
+    -e "s/$dom/example.com/gI" \
+    -e "s/$OLD_EMAIL/old-email@example.com/g"
+EOF
+export SCRUB="$(pwd)/../scrub-history.sh"
+
+git -c core.autocrlf=false -c core.longpaths=true filter-branch --force \
   --env-filter '
     export GIT_AUTHOR_NAME="Dan Anghel"
     export GIT_AUTHOR_EMAIL="7040327+dananghel89@users.noreply.github.com"
@@ -103,15 +122,7 @@ git -c core.autocrlf=false filter-branch --force \
     sed -e "1s/^Initial commit$/chore: initial commit/" \
         -e "1s/^Upload project files$/feat: add Start Bootstrap agency site and SB Admin CMS/" \
         -e "1s/^Update favicon$/chore: update favicon/"' \
-  --tree-filter '
-    rm -rf public/demo public/favicon.png
-    grep -rlIZ --exclude-dir=vendor --exclude-dir=node_modules \
-      -e "$OLD_PASS" -e "@$OLD_DOMAIN" -e "<meta name=\"author\"" . 2>/dev/null \
-    | xargs -0 -r sed -i \
-        -e "s/$OLD_PASS/password/g" \
-        -e "s/admin@$OLD_DOMAIN/admin@example.com/g" \
-        -e "s/editor@$OLD_DOMAIN/editor@example.com/g" \
-        -e "/<meta name=\"author\"/d"' \
+  --tree-filter 'sh "$SCRUB"' \
   -- master
 ```
 
@@ -119,6 +130,7 @@ git -c core.autocrlf=false filter-branch --force \
 - Only `public/demo/` and the old `public/favicon.png` are purged. The theme assets used by the app stay in the history and in the latest commit.
 - The `Update favicon` commit only changed `public/favicon.png`, so after the purge it is empty. It is kept (no `--prune-empty`), so the commit count still matches in 4.4.
 - `-I` skips binary files (e.g. `composer.phar`).
+- `core.longpaths=true` is needed on Windows: some `public/demo/…/fontawesome-free/svgs/…` paths in the old commits go over 260 characters inside `.git-rewrite/t/` (found in the dry run).
 - The original history stays reachable at `refs/original/refs/heads/master` until 4.7, as well as in the bundle and on Bitbucket.
 
 ### 4.4 Verify the rewrite (local, before any push)
@@ -128,7 +140,7 @@ All of these must pass; if one fails, reset to the backup (section 6) and fix th
 1. **Same number of commits:** `git rev-list --count master` equals the "before" count.
 2. **Identity:** `git log --format='%an <%ae> | %cn <%ce>' master | sort -u` → exactly one line, with the noreply address for both author and committer.
 3. **Messages:** `git log --format=%s master` shows the new first-line messages and no other changes.
-4. **Scrub is complete:** `git log -p master | grep -c -i -E "$OLD_PASS|$OLD_DOMAIN"` → `0`, and `git grep -n -i -E "$OLD_PASS|$OLD_DOMAIN" master` → nothing.
+4. **Scrub is complete:** with `P="$OLD_PASS|${OLD_DOMAIN%%.*}.{0,2}${OLD_DOMAIN#*.}|$OLD_EMAIL"`, `git log -p master | grep -c -i -E "$P"` → `0`, and `git grep -n -i -E "$P" master` → nothing.
 5. **Only the intended content changed.** For every old/new commit pair (`paste ../commits-before.txt <(git rev-list master)`), `git diff --stat <old> <new>` lists only:
    - files that contained the scrubbed values: `Options.php`, `config/sb.php`, `UserSeeder.php`, the 3 layouts, `CLAUDE.md`, `docs/*.md`
    - **deletions** of `public/demo/` and `public/favicon.png`

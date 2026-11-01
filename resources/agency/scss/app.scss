@@ -2,7 +2,6 @@
  * Based on Start Bootstrap - Agency v7.0.12 (https://startbootstrap.com/theme/agency)
  * Copyright 2013-2023 Start Bootstrap LLC
  * Licensed under MIT (https://github.com/StartBootstrap/startbootstrap-agency/blob/master/LICENSE)
- * Modifications copyright 2026 Dan Anghel
  */
 
 //

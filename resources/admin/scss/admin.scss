@@ -2,7 +2,6 @@
  * Based on Start Bootstrap - SB Admin 2 v4.1.3 (https://startbootstrap.com/theme/sb-admin-2)
  * Copyright 2013-2021 Start Bootstrap LLC
  * Licensed under MIT (https://github.com/StartBootstrap/startbootstrap-sb-admin-2/blob/master/LICENSE)
- * Modifications copyright 2026 Dan Anghel
  */
 
 //
