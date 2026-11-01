@@ -151,7 +151,7 @@ All of these must pass; if one fails, reset to the backup (section 6) and fix th
 - [ ] The commit count matches. Every commit shows your avatar, linked to `dananghel89`, so the noreply address is recognized.
 - [ ] Open a few commits: the dates are original; the messages are as in section 3.
 - [ ] Search the repo for the old password and the old domain → nothing.
-- [ ] The repo has `LICENSE`, and the README credits Start Bootstrap.
+- [ ] The README credits Start Bootstrap.
 - [ ] The README (from review-plan R30) renders correctly.
 
 ### 4.7 Local cleanup
@@ -168,7 +168,7 @@ All of these must pass; if one fails, reset to the backup (section 6) and fix th
    - [ ] no personal data in the site content (`resources/views/**`): contact details, addresses, phone numbers
    - [ ] `.env.example` contains no real values
 2. Settings → General → Danger Zone → **Change visibility → Public**.
-3. Optional: add a repo description and topics (`laravel`, `livewire`, `bootstrap`, `cms`). The MIT `LICENSE` is already in the repo (licensing plan, Phase 7).
+3. Optional: add a repo description and topics (`laravel`, `livewire`, `bootstrap`, `cms`). The repo has no license file (decided 2026-11-01), so GitHub shows no license.
 
 ### 4.9 ⏸ You: delete the Bitbucket repo (browser)
 

@@ -90,9 +90,9 @@ Shared pieces first, so phases 3–8 contain only section-specific code.
 ### Phase 2 – Image columns and demo images
 
 1. Migration `add_image_to_portfolio_team_timeline`: a nullable `string('image')` on `portfolio`, `team` and `timeline`. Add `image` to each model's `$fillable` and use `HasImage`.
-2. Public views (`pages/home.blade.php`): replace `$item->image` with `$item->image_url`, falling back to the local `resources/agency/img/placeholder.svg` (from the licensing plan; no `placehold.co`).
+2. Public views (`pages/home.blade.php`): replace `$item->image` with `$item->image_url`, falling back to the local `public/img/agency/placeholder.svg` (`asset('img/agency/placeholder.svg')`) (from the licensing plan; no `placehold.co`).
 3. Seeders copy the **original Agency theme images** into the public disk, so a fresh install has a complete demo:
-   - `resources/agency/img/portfolio/1…6.jpg` → `portfolio/`
+   - `public/img/agency/portfolio/1…6.jpg` → `portfolio/`
    - `team/1…3.jpg` → `team/`
    - `about/1…4.jpg` → `timeline/`
    - Seeder rows reference those files.
@@ -146,7 +146,7 @@ The admin list columns are updated to show the new fields: a thumbnail for image
    - sidebar entry `['clients', 'Clients', 'handshake', 'interface', 'clients.index']` in `config/project.php`
    - resource routes and controller
    - list and form: `name` required · `url` nullable `url` · `image` **required on create**, `image|mimes:jpg,jpeg,png,webp|max:1024`
-3. **SVG:** admin uploads are raster-only: jpg/png/webp (decided 2026-10-31). An uploaded SVG can carry scripts when opened directly from the same domain. `ClientSeeder` seeds the **Agency theme's demo logos** (`resources/agency/img/logos/*.svg`; trusted files, so SVG is fine). Real client logos are uploaded later by the site owner.
+3. **SVG:** admin uploads are raster-only: jpg/png/webp (decided 2026-10-31). An uploaded SVG can carry scripts when opened directly from the same domain. `ClientSeeder` seeds the **Agency theme's demo logos** (`public/img/agency/logos/*.svg`; trusted files, so SVG is fine). Real client logos are uploaded later by the site owner.
 4. Home "Clients" section: loop over `Client::published()->orderBy('position')`, link only when `url` is set, and hide the section when there are no clients.
 5. Dashboard counter for Clients.
 6. Tests: CRUD, the raster-only upload rule, and the home section showing published clients.

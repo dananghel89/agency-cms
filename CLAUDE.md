@@ -40,7 +40,7 @@ The seeded admin login comes from `SEED_ADMIN_EMAIL` / `SEED_ADMIN_PASSWORD` in 
 ### Two front ends, two asset pipelines
 - **Public site:** `layouts/app.blade.php` (the `<x-app-layout>` component) loads `resources/agency/{scss,js}` through `@vite` and Bootstrap 5 from `public/vendor/bootstrap-5`.
 - **Admin:** `layouts/admin.blade.php` (the `<x-admin-layout>` component) loads `resources/admin/{scss,js}` through `@vite`, plus Bootstrap 4, jQuery and DataTables from `public/vendor/`.
-- Third-party JS/CSS is committed as static files under `public/vendor/` and loaded with `asset()`. Only the four entry points listed in `vite.config.js` go through Vite. Images under `resources/*/img` are globbed in each JS entry so that `Vite::asset()` can resolve them.
+- Third-party JS/CSS is committed as static files under `public/vendor/` and loaded with `asset()`. Only the four entry points listed in `vite.config.js` go through Vite. Static images live in `public/img/{agency,admin}/` and are loaded with `asset('img/…')` in Blade and absolute `/img/…` URLs in SCSS (Vite leaves those untouched). Tests call `withoutVite()` (`tests/TestCase.php`), so they run without `npm run build`.
 
 ### Routing
 - `routes/web.php` defines `/` (`HomeController`), then requires `auth.php` and `admin.php`, then registers a catch-all `/{page}` (`PageController`, which shows a published `Page` by slug, or a 404). New top-level routes must be registered **before** the catch-all.

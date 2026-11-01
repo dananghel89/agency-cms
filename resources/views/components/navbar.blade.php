@@ -1,7 +1,7 @@
 <!-- Navigation -->
 <nav {{ $attributes->merge(['id' => 'mainNav', 'class' => 'navbar navbar-expand-lg navbar-dark fixed-top']) }}>
     <div class="container">
-        <a class="navbar-brand" href="#page-top"><img src="{{ Vite::asset('resources/agency/img/agency-cms-logo.svg') }}" alt=""></a>
+        <a class="navbar-brand" href="#page-top"><img src="{{ asset('img/agency/agency-cms-logo.svg') }}" alt=""></a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
             {{ __('Menu') }} <i class="fas fa-bars ms-1"></i>
         </button>

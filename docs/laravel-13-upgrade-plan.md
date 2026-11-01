@@ -258,7 +258,7 @@ Livewire 4 has single-file components built in. Volt's class-based syntax (`new 
    },
    ```
    Only list the IDs the build actually prints; unknown IDs cause their own warning.
-5. `npm run build`: check that the manifest and both CSS/JS bundles are generated in `public/build` and that `Vite::asset()` image paths resolve. Then `npm run dev` with `php artisan serve` → HMR works on both the site and the admin.
+5. `npm run build`: check that the manifest and both CSS/JS bundles are generated in `public/build` and that the CSS keeps the `/img/…` image URLs (static images are served from `public/img`, not by Vite). Then `npm run dev` with `php artisan serve` → HMR works on both the site and the admin.
 
 ### Phase 9 – Final verification on `artisan serve`
 

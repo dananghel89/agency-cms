@@ -3,7 +3,6 @@
     "type": "project",
     "description": "A small Laravel CMS for a one-page agency website.",
     "keywords": ["laravel", "cms", "livewire", "agency"],
-    "license": "MIT",
     "require": {
         "php": "^8.1",
         "guzzlehttp/guzzle": "^7.2",

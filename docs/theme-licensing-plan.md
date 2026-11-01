@@ -34,9 +34,9 @@ Created: 2026-10-31
 | Keep the theme's demo images, logos and unDraw illustrations | No restriction | **Kept as in the theme** (decided 2026-11-01) |
 | `public/demo` (the static theme demos) | No | **Removed** 2026-11-01: not used by the app; the originals are on Start Bootstrap's site and GitHub. Also purged from history in the GitHub migration |
 | Library notices in `public/vendor/*` | Yes, and already met: each library carries its copyright and license in its own files (jQuery Easing in the unminified `jquery.easing.js`) | Vendor files kept identical to the theme. The LICENSE files and the `jquery.easing.min.js` banner added on 2026-10-31 were **removed** on 2026-11-01 |
-| Project license | Your choice | Done: MIT (`LICENSE`, `composer.json`, `package.json`) |
+| Project license | No | MIT `LICENSE` added 2026-10-31, **removed** 2026-11-01 at your request (with the `license` fields in `composer.json`/`package.json` and the README section). Your own code is "all rights reserved"; the themes stay MIT through their banners |
 | `LICENSES/` folder and `THIRD_PARTY_NOTICES.md` | No | Added 2026-10-31, **removed** 2026-11-01 at your request: the theme banners, the notices inside the vendor files and the README credit cover what is needed |
-| Name "Agency CMS" | No | Your choice (2026-10-31). Navbar logo: `resources/agency/img/agency-cms-logo.svg`, "Agency CMS" drawn as outlines in Kaushan Script (SIL OFL 1.1, the font of the theme's own logo), same colour and height. The theme's `navbar-logo.svg` stays in the repo unchanged |
+| Name "Agency CMS" | No | Your choice (2026-10-31). Navbar logo: `public/img/agency/agency-cms-logo.svg`, "Agency CMS" drawn as outlines in Kaushan Script (SIL OFL 1.1, the font of the theme's own logo), same colour and height. The theme's `navbar-logo.svg` stays in the repo unchanged |
 | Self-hosted fonts and image placeholders | No (privacy best practice: no visitor IPs sent to Google Fonts / `placehold.co`) | Done: Fontsource packages; local `placeholder.svg` and `placeholder-square.svg` |
 | New favicon | – | Done; the old one wasn't yours |
 
@@ -47,8 +47,7 @@ Created: 2026-10-31
 | Theme notices | f430cef | Banners in `admin.scss`, `app.scss` and both `scripts.js` |
 | Name | b76f2e3 | `APP_NAME`, `config/project.php` titles, `composer.json` / `package.json` names, README credit |
 | Fonts and placeholders | 3d86968 | Fontsource (Nunito, Montserrat, Roboto Slab), local placeholders, `.square` timeline image |
-| Project license | e6e17bd | `LICENSE` (MIT) |
-| Revision | this commit | Original theme assets restored; `LICENSES/`, `THIRD_PARTY_NOTICES.md`, the vendor LICENSE files and `public/demo` removed (section 5) |
+| Revision | this commit | Original theme assets restored; `LICENSES/`, `THIRD_PARTY_NOTICES.md`, the vendor LICENSE files, the project `LICENSE` and `public/demo` removed (section 5) |
 
 Note: Roboto Slab is Apache-2.0 (not OFL); Nunito and Montserrat are OFL 1.1. The committed DataTables is 1.10.24.
 

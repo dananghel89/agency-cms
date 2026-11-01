@@ -48,7 +48,7 @@
                             @if ($portfolioItem->image)
                                 <img class="img-fluid" src="{{ $portfolioItem->image }}" alt="">
                             @else
-                                <img class="img-fluid" src="{{ Vite::asset('resources/agency/img/placeholder.svg') }}" alt="">  
+                                <img class="img-fluid" src="{{ asset('img/agency/placeholder.svg') }}" alt="">  
                             @endif
                         </a>
                         <div class="portfolio-caption">
@@ -82,7 +82,7 @@
                         @if ($timelineItem->image)
                             <img class="rounded-circle img-fluid" src="{{ $timelineItem->image }}" alt="">
                         @else
-                            <img class="rounded-circle img-fluid square" src="{{ Vite::asset('resources/agency/img/placeholder-square.svg') }}" alt="">  
+                            <img class="rounded-circle img-fluid square" src="{{ asset('img/agency/placeholder-square.svg') }}" alt="">  
                         @endif
                     </div>
                     <div class="timeline-panel">
@@ -121,7 +121,7 @@
                         @if ($teamItem->image)
                             <img class="mx-auto rounded-circle" src="{{ $teamItem->image }}" alt="">
                         @else
-                            <img class="mx-auto rounded-circle" src="{{ Vite::asset('resources/agency/img/placeholder.svg') }}" alt="">  
+                            <img class="mx-auto rounded-circle" src="{{ asset('img/agency/placeholder.svg') }}" alt="">  
                         @endif
                         <h4>{{ $teamItem->name }}</h4>
                         <p class="text-muted">{{ $teamItem->profession }}</p>
@@ -144,16 +144,16 @@
     <div class="container">
         <div class="row align-items-center">
             <div class="col-md-3 col-sm-6 my-3">
-                <a href="javascript:void(0)"><img class="img-fluid img-brand d-block mx-auto" src="{{ Vite::asset('resources/agency/img/logos/microsoft.svg') }}" alt="Microsoft Logo"></a>
+                <a href="javascript:void(0)"><img class="img-fluid img-brand d-block mx-auto" src="{{ asset('img/agency/logos/microsoft.svg') }}" alt="Microsoft Logo"></a>
             </div>
             <div class="col-md-3 col-sm-6 my-3">
-                <a href="javascript:void(0)"><img class="img-fluid img-brand d-block mx-auto" src="{{ Vite::asset('resources/agency/img/logos/google.svg') }}" alt="Google Logo"></a>
+                <a href="javascript:void(0)"><img class="img-fluid img-brand d-block mx-auto" src="{{ asset('img/agency/logos/google.svg') }}" alt="Google Logo"></a>
             </div>
             <div class="col-md-3 col-sm-6 my-3">
-                <a href="javascript:void(0)"><img class="img-fluid img-brand d-block mx-auto" src="{{ Vite::asset('resources/agency/img/logos/facebook.svg') }}" alt="Facebook Logo"></a>
+                <a href="javascript:void(0)"><img class="img-fluid img-brand d-block mx-auto" src="{{ asset('img/agency/logos/facebook.svg') }}" alt="Facebook Logo"></a>
             </div>
             <div class="col-md-3 col-sm-6 my-3">
-                <a href="javascript:void(0)"><img class="img-fluid img-brand d-block mx-auto" src="{{ Vite::asset('resources/agency/img/logos/ibm.svg') }}" alt="IBM Logo"></a>
+                <a href="javascript:void(0)"><img class="img-fluid img-brand d-block mx-auto" src="{{ asset('img/agency/logos/ibm.svg') }}" alt="IBM Logo"></a>
             </div>
         </div>
     </div>
@@ -171,7 +171,7 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="close-modal" data-bs-dismiss="modal">
-                        <img src="{{ Vite::asset('resources/agency/img/close-icon.svg') }}" alt="{{ __('Close modal') }}">
+                        <img src="{{ asset('img/agency/close-icon.svg') }}" alt="{{ __('Close modal') }}">
                     </div>
                     <div class="container">
                         <div class="row justify-content-center">
@@ -182,7 +182,7 @@
                                     @if ($portfolioItem->image)
                                         <img class="img-fluid d-block mx-auto" src="{{ $portfolioItem->image }}" alt="">
                                     @else
-                                        <img class="img-fluid d-block mx-auto" src="{{ Vite::asset('resources/agency/img/placeholder.svg') }}" alt="">  
+                                        <img class="img-fluid d-block mx-auto" src="{{ asset('img/agency/placeholder.svg') }}" alt="">  
                                     @endif
                                     <p>{{ $portfolioItem->content }}</p>
                                     <ul class="list-inline">
