@@ -9,7 +9,7 @@
                 <div class="mr-2 d-none d-lg-inline text-gray-600 small">
                     <span x-data="{{ json_encode(['name' => auth()->user()->name]) }}" x-text="name" x-on:profile-updated.window="name = $event.detail.name"></span>
                 </div>
-                <img class="img-profile rounded-circle" src="{{ Vite::asset('resources/admin/img/undraw_profile.svg') }}">
+                <img class="img-profile rounded-circle" src="{{ asset('img/admin/undraw_profile.svg') }}">
             </a>
             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                 aria-labelledby="userDropdown">

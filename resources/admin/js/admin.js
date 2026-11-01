@@ -7,8 +7,4 @@ import "@fontsource/nunito/600-italic.css";
 import "@fontsource/nunito/800.css";
 import "@fontsource/nunito/800-italic.css";
 
-import.meta.glob([
-  '../img/**',
-]);
-
 import './scripts';
