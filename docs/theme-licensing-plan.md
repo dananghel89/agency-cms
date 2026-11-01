@@ -1,6 +1,6 @@
 # Plan: legal use of the Start Bootstrap themes and bundled assets
 
-Status: **In progress** – Phase 1 done (903d405), Phase 2 done (f430cef), Phase 3 done (5adfbfc), Phase 4 done (b76f2e3), Phase 5 done (89d2b94), Phase 6 done
+Status: **In progress** – Phase 1 done (903d405), Phase 2 done (f430cef), Phase 3 done (5adfbfc), Phase 4 done (b76f2e3), Phase 5 done (89d2b94), Phase 6 done (3d86968), Phase 7 done
 Created: 2026-10-31
 
 > This plan is a technical compliance checklist based on the published license texts. It is not legal advice. If the site is used commercially for a client, have the final inventory (section 2) reviewed by a lawyer.
@@ -59,7 +59,8 @@ Plan order in `docs/`:
 | Font | License | Problem | Action |
 |---|---|---|---|
 | Nunito (admin, guest) | SIL OFL 1.1 | Loaded from `fonts.googleapis.com` / `fonts.gstatic.com` | Phase 6: self-host |
-| Montserrat, Roboto Slab (public site) | SIL OFL 1.1 | Same | Phase 6: self-host |
+| Montserrat (public site) | SIL OFL 1.1 | Same | Phase 6: self-host |
+| Roboto Slab (public site) | **Apache-2.0** (not OFL, checked 2026-11-01 in the Fontsource package) | Same | Phase 6: self-host |
 | Font Awesome Free 5.15.3 (`public/vendor/fontawesome`) | Icons CC BY 4.0, fonts OFL 1.1, code MIT | Already self-hosted. The CSS banner gives attribution, but `LICENSE.txt` is missing | Phase 3: add LICENSE.txt |
 
 ### 2.4 Libraries (committed in `public/vendor`, or bundled by Vite)
@@ -69,7 +70,7 @@ Plan order in `docs/`:
 | Bootstrap 4.6.0 / 5.2.3 | MIT | Yes | Add LICENSE |
 | jQuery 3.6.0 | MIT | Yes | Add LICENSE. Keep `jquery.slim*`: its tag is commented out in the public layout (review-plan R25) |
 | jQuery Easing 1.4.1 | **BSD-3-Clause** (the notice is required in redistributions) | **No** (`.min.js`) | Add LICENSE + a banner; drop the unused `jquery.easing.compatibility.js` |
-| DataTables 1.13 (+ Bootstrap 4 integration) | MIT | `.min.css` **no** | Add LICENSE |
+| DataTables 1.10.24 (+ Bootstrap 4 integration) | MIT | `.min.css` **no** | Add LICENSE |
 | Chart.js 2.9.4 | MIT | Yes | **Unused** by the app (only by the demo), so delete `public/vendor/chart.js` and the npm dependency |
 | Composer runtime packages (not committed; `vendor/` is ignored) | 68 MIT, 7 BSD-3, Apache-2.0 (`phpoption`); `nette/*` dual BSD-3/GPL | – | Listed in the notices; use nette under BSD-3-Clause |
 | npm packages bundled by Vite | MIT (axios, Bootstrap SCSS…) | The Bootstrap banner survives in the built CSS | Listed in the notices |
@@ -191,7 +192,7 @@ Side effect: a new `APP_NAME` changes the default cache prefix and session cooki
 1. `THIRD_PARTY_NOTICES.md` at the repo root, with these sections:
    - **Themes:** SB Admin 2, Agency (version, copyright, MIT, upstream URL, what was adapted). Full texts in `LICENSES/`.
    - **Front-end libraries:** Bootstrap 4/5, jQuery, jQuery Easing (full BSD-3 text), DataTables, Font Awesome Free (CC BY 4.0 / OFL / MIT).
-   - **Fonts:** Nunito, Montserrat, Roboto Slab (SIL OFL 1.1, with the full text in `LICENSES/OFL-1.1.txt`).
+   - **Fonts:** Nunito, Montserrat (SIL OFL 1.1), Roboto Slab (Apache-2.0). Each font's own license file, with its copyright line, is in `LICENSES/font-*.txt`.
    - **Images:** a table of each file, source URL, author, license (Unsplash/Pexels) and download date. Also list the in-house SVGs (placeholder, client placeholders) and the favicon.
    - **Server-side dependencies:** a summary from `php81 composer.phar licenses --no-dev` (MIT/BSD-3/Apache-2.0; nette used under BSD-3-Clause), and from `npx license-checker --production --summary` for npm.
 2. `LICENSE` (project): MIT, "Copyright (c) <year> Dan Anghel".
