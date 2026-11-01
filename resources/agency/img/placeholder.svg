@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 450" width="600" height="450" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Placeholder image">
+  <rect width="600" height="450" fill="#dee2e6"/>
+  <g fill="#adb5bd">
+    <circle cx="335" cy="185" r="22"/>
+    <path d="M230 275 L285 205 L320 250 L345 225 L380 275 Z"/>
+  </g>
+</svg>

@@ -1,6 +1,6 @@
 # Plan: legal use of the Start Bootstrap themes and bundled assets
 
-Status: **In progress** – Phase 1 done (903d405), Phase 2 done (f430cef), Phase 3 done (5adfbfc), Phase 4 done (b76f2e3), Phase 5 done
+Status: **In progress** – Phase 1 done (903d405), Phase 2 done (f430cef), Phase 3 done (5adfbfc), Phase 4 done (b76f2e3), Phase 5 done (89d2b94), Phase 6 done
 Created: 2026-10-31
 
 > This plan is a technical compliance checklist based on the published license texts. It is not legal advice. If the site is used commercially for a client, have the final inventory (section 2) reviewed by a lawyer.
@@ -183,7 +183,7 @@ Side effect: a new `APP_NAME` changes the default cache prefix and session cooki
    - `npm install @fontsource/nunito @fontsource/montserrat @fontsource/roboto-slab`
    - Import only the weights in use. Admin: Nunito 200/400/600/800 (+ italics, if used). Public site: Montserrat 400/700, Roboto Slab 100/300/400/700. Import in `resources/admin/scss/admin.scss` and `resources/agency/scss/app.scss`, or in the JS entries.
    - Remove the 3× `preconnect` + Google Fonts `<link>` tags from `layouts/admin`, `layouts/guest` and `layouts/app`.
-2. **Placeholders:** add `resources/agency/img/placeholder.svg` (made in-house: a neutral grey box). Replace the 4 `https://placehold.co/…` URLs with `Vite::asset('resources/agency/img/placeholder.svg')`. The finish plan's `image_url` fallback uses the same file.
+2. **Placeholders:** add `resources/agency/img/placeholder.svg` (made in-house: a neutral grey box). Replace the 4 `https://placehold.co/…` URLs with `Vite::asset('resources/agency/img/placeholder.svg')`. The round timeline image uses a square variant, `placeholder-square.svg`, plus the `.square` class (fills the circle with `object-fit: cover`). The finish plan's `image_url` fallback uses the same file.
 3. **Check:** load the home page, login and admin in the browser with DevTools → Network. There must be **no** request to any host other than `start-bootstrap.test`. `grep -rn "https\?://" resources/views` should only find links, never `src`/`href` loading assets.
 
 ### Phase 7 – Notices file and project license

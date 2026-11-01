@@ -48,7 +48,7 @@
                             @if ($portfolioItem->image)
                                 <img class="img-fluid" src="{{ $portfolioItem->image }}" alt="">
                             @else
-                                <img class="img-fluid" src="https://placehold.co/600x450" alt="">  
+                                <img class="img-fluid" src="{{ Vite::asset('resources/agency/img/placeholder.svg') }}" alt="">  
                             @endif
                         </a>
                         <div class="portfolio-caption">
@@ -82,7 +82,7 @@
                         @if ($timelineItem->image)
                             <img class="rounded-circle img-fluid" src="{{ $timelineItem->image }}" alt="">
                         @else
-                            <img class="rounded-circle img-fluid" src="https://placehold.co/200x200" alt="">  
+                            <img class="rounded-circle img-fluid square" src="{{ Vite::asset('resources/agency/img/placeholder-square.svg') }}" alt="">  
                         @endif
                     </div>
                     <div class="timeline-panel">
@@ -121,7 +121,7 @@
                         @if ($teamItem->image)
                             <img class="mx-auto rounded-circle" src="{{ $teamItem->image }}" alt="">
                         @else
-                            <img class="mx-auto rounded-circle" src="https://placehold.co/500x500" alt="">  
+                            <img class="mx-auto rounded-circle" src="{{ Vite::asset('resources/agency/img/placeholder.svg') }}" alt="">  
                         @endif
                         <h4>{{ $teamItem->name }}</h4>
                         <p class="text-muted">{{ $teamItem->profession }}</p>
@@ -175,7 +175,7 @@
                                     @if ($portfolioItem->image)
                                         <img class="img-fluid d-block mx-auto" src="{{ $portfolioItem->image }}" alt="">
                                     @else
-                                        <img class="img-fluid d-block mx-auto" src="https://placehold.co/600x450" alt="">  
+                                        <img class="img-fluid d-block mx-auto" src="{{ Vite::asset('resources/agency/img/placeholder.svg') }}" alt="">  
                                     @endif
                                     <p>{{ $portfolioItem->content }}</p>
                                     <ul class="list-inline">
