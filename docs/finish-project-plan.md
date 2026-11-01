@@ -8,7 +8,7 @@ Created: 2026-10-31
 This is the **fifth** plan. Start it only when all earlier plans are merged into `master`:
 
 1. [project-review-fix-plan.md](project-review-fix-plan.md): bug fixes, SQLite test suite, "not implemented yet" placeholders.
-2. [theme-licensing-plan.md](theme-licensing-plan.md): licensed replacement images, notices, rebranding, self-hosted fonts.
+2. [theme-licensing-plan.md](theme-licensing-plan.md): MIT notices and credits, rebranding, self-hosted fonts. The original theme images are kept.
 3. [github-migration-plan.md](github-migration-plan.md): repo moved to GitHub (public), history rewritten.
 4. [laravel-13-upgrade-plan.md](laravel-13-upgrade-plan.md): Laravel 13, PHP 8.4, slim structure, Livewire 4 (Volt removed), Vite 8.
 5. **This plan:** builds the missing features directly on the upgraded stack.
@@ -91,12 +91,11 @@ Shared pieces first, so phases 3–8 contain only section-specific code.
 
 1. Migration `add_image_to_portfolio_team_timeline`: a nullable `string('image')` on `portfolio`, `team` and `timeline`. Add `image` to each model's `$fillable` and use `HasImage`.
 2. Public views (`pages/home.blade.php`): replace `$item->image` with `$item->image_url`, falling back to the local `resources/agency/img/placeholder.svg` (from the licensing plan; no `placehold.co`).
-3. Seeders copy the **licensed replacement images** from the licensing plan (Phase 5) into the public disk, so a fresh install has a complete demo:
-   - `resources/agency/img/portfolio/project-1…6.jpg` → `portfolio/`
-   - `team/member-1…3.jpg` → `team/`
-   - `timeline/timeline-1…4.jpg` → `timeline/`
+3. Seeders copy the **original Agency theme images** into the public disk, so a fresh install has a complete demo:
+   - `resources/agency/img/portfolio/1…6.jpg` → `portfolio/`
+   - `team/1…3.jpg` → `team/`
+   - `about/1…4.jpg` → `timeline/`
    - Seeder rows reference those files.
-   - The original theme photos are gone (licensing plan); never re-add them. Any new demo image must be recorded in `THIRD_PARTY_NOTICES.md`.
 4. Check that `public/storage` (currently a Windows junction to `storage/app/public`) serves files. Otherwise run `php artisan storage:link`.
 5. Tests: `HomePageTest` shows uploaded image URLs and falls back to placeholders.
 
@@ -147,7 +146,7 @@ The admin list columns are updated to show the new fields: a thumbnail for image
    - sidebar entry `['clients', 'Clients', 'handshake', 'interface', 'clients.index']` in `config/project.php`
    - resource routes and controller
    - list and form: `name` required · `url` nullable `url` · `image` **required on create**, `image|mimes:jpg,jpeg,png,webp|max:1024`
-3. **SVG:** admin uploads are raster-only: jpg/png/webp (decided 2026-10-31). An uploaded SVG can carry scripts when opened directly from the same domain. `ClientSeeder` seeds **in-house placeholder logos** (simple SVGs made for this project, the existing `resources/agency/img/clients/client-1…4.svg`; trusted, so SVG is fine). **Never real company logos**: the licensing plan removed the Microsoft/Google/Facebook/IBM logos as trademarks. Real client logos are uploaded later by the site owner, who must have the client's permission.
+3. **SVG:** admin uploads are raster-only: jpg/png/webp (decided 2026-10-31). An uploaded SVG can carry scripts when opened directly from the same domain. `ClientSeeder` seeds the **Agency theme's demo logos** (`resources/agency/img/logos/*.svg`; trusted files, so SVG is fine). Real client logos are uploaded later by the site owner.
 4. Home "Clients" section: loop over `Client::published()->orderBy('position')`, link only when `url` is set, and hide the section when there are no clients.
 5. Dashboard counter for Clients.
 6. Tests: CRUD, the raster-only upload rule, and the home section showing published clients.
@@ -225,7 +224,7 @@ The admin list columns are updated to show the new fields: a thumbnail for image
 
 ### Phase 11 – Verification and documentation
 
-1. `php artisan migrate:fresh --seed` (local; backup from Phase 0) → the demo site is complete, with licensed images, placeholder client logos and legal pages.
+1. `php artisan migrate:fresh --seed` (local; backup from Phase 0) → the demo site is complete, with the theme's demo images and client logos, and the legal pages.
 2. `php artisan test` → green; `vendor/bin/pint --test` → clean; `npm run build` → OK.
 3. Smoke checklist (section 4).
 4. Docs:

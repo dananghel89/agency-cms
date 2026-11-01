@@ -23,7 +23,7 @@ Plan order in `docs/`:
 | Commit identity | Every commit (author **and** committer): `Dan Anghel <7040327+dananghel89@users.noreply.github.com>`. Your gmail is never used (your per-host email rule) |
 | Commit messages | One-line `type: description`. The original 3 commits are renamed (section 3); commits from the review plan are already written in this style |
 | History scrub | Every past commit: the old demo password → `password`, the old personal-domain emails → `admin@example.com` / `editor@example.com`, and the old `<meta name="author">` line is deleted. The old domain is not written anywhere in the repo; 4.3 reads it from the history |
-| History purge | Remove from **every** past commit the files that the licensing plan deleted: `public/demo/`, the old theme photos, the Start Bootstrap logo, the trademarked client logos, the unDraw files, `map-image.png`, `close-icon.svg`, `public/vendor/chart.js/`, the old `public/favicon.png` (not your artwork). A public history must not contain them either |
+| History purge | Removed from every past commit: `public/demo/` (the static theme demos, 23 MB, removed from the repo 2026-11-01) and the old `public/favicon.png` (not your artwork). The theme assets used by the app are MIT demo content and stay |
 | Bitbucket | **Deleted** after GitHub is verified (you do this in the browser). Until then it is the fallback |
 | Tools | Standard git only (`git filter-branch`, `git bundle`). `gh` and `git filter-repo` are not installed and are not needed. GitHub steps happen in the browser |
 
@@ -104,13 +104,7 @@ git -c core.autocrlf=false filter-branch --force \
         -e "1s/^Upload project files$/feat: add Start Bootstrap agency site and SB Admin CMS/" \
         -e "1s/^Update favicon$/chore: update favicon/"' \
   --tree-filter '
-    rm -rf public/demo public/vendor/chart.js public/favicon.png \
-      resources/agency/img/header-bg.jpg resources/agency/img/map-image.png \
-      resources/agency/img/navbar-logo.svg resources/agency/img/close-icon.svg \
-      resources/agency/img/logos resources/agency/img/about \
-      resources/agency/img/portfolio/[0-9].jpg resources/agency/img/team/[0-9].jpg \
-      resources/admin/img/login-image.jpg resources/admin/img/register-image.jpg \
-      resources/admin/img/password-image.jpg resources/admin/img/undraw_*.svg
+    rm -rf public/demo public/favicon.png
     grep -rlIZ --exclude-dir=vendor --exclude-dir=node_modules \
       -e "$OLD_PASS" -e "@$OLD_DOMAIN" -e "<meta name=\"author\"" . 2>/dev/null \
     | xargs -0 -r sed -i \
@@ -122,7 +116,7 @@ git -c core.autocrlf=false filter-branch --force \
 ```
 
 - `--tree-filter` checks out every commit (about 2 200 files), so expect a few minutes.
-- The `rm -rf` paths are the **old** asset paths. The licensing plan gave every replacement a **new** file name, so the latest commit keeps its new images. (`[0-9].jpg` only matches the old `1.jpg`…`6.jpg` names, not `project-1.jpg` or `member-1.jpg`.) `resources/agency/img/about` is removed whole, because the replacements live in `img/timeline/`.
+- Only `public/demo/` and the old `public/favicon.png` are purged. The theme assets used by the app stay in the history and in the latest commit.
 - The `Update favicon` commit only changed `public/favicon.png`, so after the purge it is empty. It is kept (no `--prune-empty`), so the commit count still matches in 4.4.
 - `-I` skips binary files (e.g. `composer.phar`).
 - The original history stays reachable at `refs/original/refs/heads/master` until 4.7, as well as in the bundle and on Bitbucket.
@@ -137,10 +131,10 @@ All of these must pass; if one fails, reset to the backup (section 6) and fix th
 4. **Scrub is complete:** `git log -p master | grep -c -i -E "$OLD_PASS|$OLD_DOMAIN"` → `0`, and `git grep -n -i -E "$OLD_PASS|$OLD_DOMAIN" master` → nothing.
 5. **Only the intended content changed.** For every old/new commit pair (`paste ../commits-before.txt <(git rev-list master)`), `git diff --stat <old> <new>` lists only:
    - files that contained the scrubbed values: `Options.php`, `config/sb.php`, `UserSeeder.php`, the 3 layouts, `CLAUDE.md`, `docs/*.md`
-   - **deletions** of the purged paths
+   - **deletions** of `public/demo/` and `public/favicon.png`
 
-   Any other file means line endings changed; stop. The **newest** commit must show **no** difference at all (`git diff <old-head> master` → empty), because the licensing plan already removed those files there.
-6. **Purged assets are gone:** `git log --name-only --format= master | grep -E "^public/demo/|header-bg|map-image|navbar-logo|close-icon|img/logos/|undraw_|/about/|portfolio/[0-9]\.jpg|team/[0-9]\.jpg|-image\.jpg|vendor/chart\.js|^public/favicon\.png$" | sort -u` → nothing.
+   Any other file means line endings changed; stop. The **newest** commit must show **no** difference at all (`git diff <old-head> master` → empty), because both were already removed there.
+6. **Purged paths are gone:** `git log --name-only --format= master | grep -E "^public/demo/|^public/favicon\.png$"` → nothing.
 7. **Dates kept:** `git log --format='%ad %s' master` shows the original dates (2024-07-18 …).
 8. **App still works:** `php81 composer.phar dump-autoload`, then `php81 artisan test` → green.
 
@@ -157,7 +151,7 @@ All of these must pass; if one fails, reset to the backup (section 6) and fix th
 - [ ] The commit count matches. Every commit shows your avatar, linked to `dananghel89`, so the noreply address is recognized.
 - [ ] Open a few commits: the dates are original; the messages are as in section 3.
 - [ ] Search the repo for the old password and the old domain → nothing.
-- [ ] The repo has `LICENSE` and `THIRD_PARTY_NOTICES.md`, and there is no `public/demo`. No commit in the history shows the old theme photos or logos.
+- [ ] The repo has `LICENSE`, and the README credits Start Bootstrap.
 - [ ] The README (from review-plan R30) renders correctly.
 
 ### 4.7 Local cleanup
@@ -194,7 +188,7 @@ All of these must pass; if one fails, reset to the backup (section 6) and fix th
 ## 5. Checklist (end state)
 
 - [ ] `git remote -v` → only `origin = https://github.com/dananghel89/agency-cms.git`
-- [ ] No past commit contains `public/demo/`, the old theme photos, the Start Bootstrap logo, the client logos or unDraw files
+- [ ] No past commit contains `public/demo/` or the old `public/favicon.png`
 - [ ] All commits use the noreply address and one-line `type: description` messages
 - [ ] The old password and the old domain appear nowhere in the history
 - [ ] The GitHub repo is public, with Issues/Wiki/Projects/Discussions off
