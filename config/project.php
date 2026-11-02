@@ -29,7 +29,7 @@ return [
 
     'options' => [
         'site_title' => 'Agency CMS',
-        'admin_email' => env('SB_ADMIN_EMAIL', 'admin@example.com'),
+        'admin_email' => env('ADMIN_EMAIL', 'admin@example.com'),
         'social_links' => null,
     ],
 ];

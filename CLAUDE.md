@@ -33,7 +33,7 @@ php81 vendor/bin/pint
 
 Planned work lives in `docs/`, in this order: `project-review-fix-plan.md` (bug fixes, test suite; done), then `theme-licensing-plan.md` (MIT notices and credit for the Start Bootstrap themes, rebrand, self-hosted fonts; done), then `github-migration-plan.md` (move from Bitbucket to a public GitHub repo; commit messages are one-line `type: description`), then `laravel-13-upgrade-plan.md`, then `finish-project-plan.md` (unfinished features, built on Laravel 13 / Livewire 4).
 
-The seeded admin login comes from `SEED_ADMIN_EMAIL` / `SEED_ADMIN_PASSWORD` in `.env` (default `admin@example.com` / `password`, read through `config('project.seed')`). The contact form recipient defaults to `SB_ADMIN_EMAIL`. The local `.env` holds the developer's own values; never commit them.
+The seeded admin login comes from `SEED_ADMIN_EMAIL` / `SEED_ADMIN_PASSWORD` in `.env` (default `admin@example.com` / `password`, read through `config('project.seed')`). The contact form recipient defaults to `ADMIN_EMAIL`. The local `.env` holds the developer's own values; never commit them.
 
 ## Architecture
 
