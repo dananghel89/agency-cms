@@ -57,7 +57,7 @@ Prerequisite check (Phase 0) before any work:
 
 1. Run the prerequisite check (section 1).
 2. Work directly on `master`: commit and push each phase only after you confirm it (I show the files and message first), with no feature branch.
-3. Back up the database (`mysqldump start_bootstrap > ../start_bootstrap-backup-YYYYMMDD.sql`).
+3. Back up the database (`mysqldump agency_cms > ../agency_cms-backup-YYYYMMDD.sql`).
 
 ### Phase 1 – Shared admin infrastructure
 

@@ -50,7 +50,7 @@ Node is 24.21 locally, which meets Vite 8's requirement (`^20.19 || >=22.12`).
 - **MySQL:** after the review plan, options load lazily, so `composer`/`artisan` no longer need MySQL to boot and tests use SQLite. The app itself (browser, `migrate`) still needs WAMP MySQL running.
 - **Interim testing without touching WAMP:** during Phases 3–9, use the test suite (`php artisan test`) plus `php artisan serve` (PHP 8.4, http://127.0.0.1:8000) against the WAMP MySQL database. Apache stays on 8.1 until the final checkpoint.
 
-> ⚠️ Once Phase 3 runs `composer update`, `vendor/` requires PHP ≥ 8.2. The WAMP site at `http://start-bootstrap.test` (Apache on PHP 8.1) **stops working** until Apache is switched to 8.4 (Phase 10) or you check out the `pre-laravel-13` tag (Phase 0) and run `php81 composer.phar install`.
+> ⚠️ Once Phase 3 runs `composer update`, `vendor/` requires PHP ≥ 8.2. The WAMP site at `http://agency-cms.test` (Apache on PHP 8.1) **stops working** until Apache is switched to 8.4 (Phase 10) or you check out the `pre-laravel-13` tag (Phase 0) and run `php81 composer.phar install`.
 
 ## 3. Strategy
 
@@ -85,13 +85,13 @@ Each official upgrade guide is small (10–15 min), so if a phase turns the suit
 ### Phase 0 – Preparation and baseline (PHP 8.1, nothing changes)
 
 1. Work directly on `master`, with no branch. Mark the starting point with `git tag pre-laravel-13` and `git push origin pre-laravel-13`; this is the rollback point.
-2. Back up the database: WAMP MySQL → `mysqldump start_bootstrap > ../start_bootstrap-backup-YYYYMMDD.sql` (keep it outside the repo).
+2. Back up the database: WAMP MySQL → `mysqldump agency_cms > ../agency_cms-backup-YYYYMMDD.sql` (keep it outside the repo).
 3. Record the baseline:
    - `php81 artisan --version` → `Laravel Framework 10.43.0`
    - `php81 artisan route:list > ../routes-before.txt`
    - `php81 artisan about > ../about-before.txt`
    - `php81 artisan test` → all green (the suite from the review plan, on SQLite in-memory).
-4. Run the smoke checklist (section 5) on `http://start-bootstrap.test` and note anything already broken, so it isn't blamed on the upgrade.
+4. Run the smoke checklist (section 5) on `http://agency-cms.test` and note anything already broken, so it isn't blamed on the upgrade.
 
 ### Phase 1 – Confirm the review plan is done (PHP 8.1, Laravel 10)
 
@@ -161,7 +161,7 @@ Laravel 11 still supports the L10 structure, so this phase changes only dependen
    - **Request forgery (high impact):** `VerifyCsrfToken` was renamed to `PreventRequestForgery`. The only reference is `app/Http/Middleware/VerifyCsrfToken.php` (default, with an empty `$except`), which is deleted in Phase 6. Sanctum's `validate_csrf_token` key can point to `Illuminate\Foundation\Http\Middleware\PreventRequestForgery::class`.
    - **Cache `serializable_classes` (medium):** the app does not cache PHP objects, so `false` is safe.
    - **Session `serialization` → `json`:** adopt it. The only session data is auth and flash strings. Active sessions are invalidated once, so you will need to log in again.
-   - **Cache prefix / session cookie name:** `config/cache.php` and `config/session.php` define these explicitly today. If they are replaced with the L13 versions (Phase 6), the cookie changes from `start_bootstrap_session` to `start-bootstrap-session`, which again means one re-login. No action needed.
+   - **Cache prefix / session cookie name:** `config/cache.php` and `config/session.php` define these explicitly today. If they are replaced with the L13 versions (Phase 6), the cookie changes from `agency_cms_session` to `agency-cms-session`, which again means one re-login. No action needed.
    - **`symfony/polyfill-php85` global functions:** no conflict (see Phase 1).
    - **Pagination view rename:** applies only to Bootstrap 3 views. The app uses `Paginator::useBootstrapFour()`, so no change.
    - `upsert`, `DELETE … JOIN`, queue events, polymorphic pivots: not used.
@@ -272,7 +272,7 @@ Livewire 4 has single-file components built in. Volt's class-based syntax (`new 
 
 Then:
 1. `php artisan optimize:clear`
-2. Full smoke checklist (section 5) on `http://start-bootstrap.test`.
+2. Full smoke checklist (section 5) on `http://agency-cms.test`.
 3. `php artisan about` → PHP 8.4.26, Laravel 13.x, Livewire 4.x.
 
 ### Phase 11 – Wrap up

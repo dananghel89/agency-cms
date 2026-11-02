@@ -15,7 +15,7 @@ Built with Laravel 10, Livewire 3 + Volt and Vite.
 
 ```bash
 cp .env.example .env
-# set DB_DATABASE, DB_USERNAME, DB_PASSWORD (and optionally the SB_/SEED_ values) in .env
+# set DB_DATABASE, DB_USERNAME, DB_PASSWORD (and optionally the ADMIN_EMAIL/SEED_ values) in .env
 
 php composer.phar install
 php artisan key:generate
@@ -27,7 +27,7 @@ npm run build      # or: npm run dev
 
 The seeder creates one admin user from `SEED_ADMIN_EMAIL` / `SEED_ADMIN_PASSWORD` in `.env` (default `admin@example.com` / `password`). The admin area is at `/admin`.
 
-Contact form messages are emailed to `SB_ADMIN_EMAIL` until it's changed in Admin › Options.
+Contact form messages are emailed to `ADMIN_EMAIL` until it's changed in Admin › Options.
 
 ## Tests
 

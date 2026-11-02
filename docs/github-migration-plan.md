@@ -195,7 +195,7 @@ All of these must pass; if one fails, reset to the backup (section 6) and fix th
    - The repo is on GitHub, and commits use the noreply identity automatically.
    - The seeded login is `admin@example.com` / `password` unless `SEED_ADMIN_*` is set in `.env`.
 2. The upgrade plan works on the GitHub `master`. Its commits use the noreply address automatically; check with `git config user.email` before the first commit.
-3. **Local DB:** your current local admin login is unchanged, because the database isn't touched. After the next `migrate:fresh --seed`, it becomes the `.env`/default values. Put your preferred `SEED_ADMIN_EMAIL`/`SEED_ADMIN_PASSWORD` and `SB_ADMIN_EMAIL` in your local `.env`.
+3. **Local DB:** your current local admin login is unchanged, because the database isn't touched. After the next `migrate:fresh --seed`, it becomes the `.env`/default values. Put your preferred `SEED_ADMIN_EMAIL`/`SEED_ADMIN_PASSWORD` and `ADMIN_EMAIL` in your local `.env`.
 
 ## 5. Checklist (end state)
 
