@@ -1,6 +1,6 @@
 # Plan: move the repository from Bitbucket to GitHub
 
-Status: **Draft – not started**
+Status: **Done** – 2026-11-02: history rewritten and checked (4.3–4.4), pushed to GitHub (4.5), local cleanup (4.7), repo public (4.8), Bitbucket repo deleted (4.9). The local bundle is kept until the Laravel 13 upgrade is done.
 Created: 2026-10-31
 Model: the bis-admin migration (2026-10-16 → 2026-10-22), done the same way: rewrite the history to the GitHub noreply address with one-line messages, push to GitHub, review it as a visitor, make it public, then delete Bitbucket.
 
