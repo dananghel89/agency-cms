@@ -68,7 +68,7 @@ These are already written into the review plan, so the migration has as little t
 1. The review and licensing plans are finished on `master`. Run `git status` → clean; `git branch` → only `master`.
 2. `git fetch origin` and `git status` → `master` is in sync with `origin/master` (Bitbucket), so the fallback has everything.
 3. `php81 artisan test` → green. This is the reference for after the rewrite.
-4. **Backup** outside the repo: `git bundle create ../start-bootstrap-pre-github-YYYYMMDD.bundle --all`, then `git bundle verify ../start-bootstrap-pre-github-YYYYMMDD.bundle`.
+4. **Backup** outside the repo, in `~/Downloads/backups/agency-cms/`: `git bundle create ~/Downloads/backups/agency-cms/start-bootstrap-pre-github-YYYYMMDD.bundle --all`, then `git bundle verify ~/Downloads/backups/agency-cms/start-bootstrap-pre-github-YYYYMMDD.bundle`.
 5. Record the "before" state for comparison:
    - `git rev-list master > ../commits-before.txt`
    - `git rev-list --count master`
@@ -187,7 +187,7 @@ All of these must pass; if one fails, reset to the backup (section 6) and fix th
 **Only after 4.6 and 4.8 are done.** The Bitbucket repo still holds the original history with your gmail address and the unscrubbed values.
 
 1. Bitbucket → `dan-anghel/start-bootstrap` → Repository settings → **Delete repository**.
-2. Then delete the local bundle `../start-bootstrap-pre-github-*.bundle`; it also contains the old history. Optionally keep it until the Laravel 13 upgrade is merged, then delete it.
+2. Then delete the local bundle `~/Downloads/backups/agency-cms/start-bootstrap-pre-github-*.bundle`; it also contains the old history. Optionally keep it until the Laravel 13 upgrade is merged, then delete it.
 
 ### 4.10 Docs and follow-up
 
@@ -211,6 +211,6 @@ All of these must pass; if one fails, reset to the backup (section 6) and fix th
 
 | Situation | Action |
 |---|---|
-| Rewrite looks wrong (before push) | `git reset --hard refs/original/refs/heads/master`, or restore from the bundle: `git fetch ../start-bootstrap-pre-github-*.bundle master:master --force` (after `git checkout --detach`) |
+| Rewrite looks wrong (before push) | `git reset --hard refs/original/refs/heads/master`, or restore from the bundle: `git fetch ~/Downloads/backups/agency-cms/start-bootstrap-pre-github-*.bundle master:master --force` (after `git checkout --detach`) |
 | Push went wrong (repo still private) | Delete and recreate the GitHub repo in the browser, then push again. **No force-push without asking** |
 | Anything else before 4.9 | Bitbucket is untouched and stays the source of truth until it is deleted |

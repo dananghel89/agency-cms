@@ -20,7 +20,7 @@ Runs **first**. Then [theme-licensing-plan.md](theme-licensing-plan.md), then [g
 - PHP: **`php81`** for every command. Composer: **`php81 composer.phar`**.
 - WAMP Apache stays on PHP 8.1 for this whole plan; no version switch is needed.
 - > ⛔ **Do not run `php81 artisan test` until step A2 is done.** Today `phpunit.xml` has no test database configured, so tests run against the real `start_bootstrap` MySQL database. The existing tests use `RefreshDatabase`, which **wipes it** (finding R01).
-- Back up the database before Phase A: `mysqldump start_bootstrap > ../start_bootstrap-backup-YYYYMMDD.sql`.
+- Back up the database before Phase A: `mysqldump start_bootstrap > ~/Downloads/backups/agency-cms/start_bootstrap-backup-YYYYMMDD.sql`.
 
 ## 3. Findings
 

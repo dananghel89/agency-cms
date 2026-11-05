@@ -85,11 +85,11 @@ Each official upgrade guide is small (10–15 min), so if a phase turns the suit
 ### Phase 0 – Preparation and baseline (PHP 8.1, nothing changes)
 
 1. Work directly on `master`, with no branch. Mark the starting point with `git tag pre-laravel-13` and `git push origin pre-laravel-13`; this is the rollback point.
-2. Back up the database: WAMP MySQL → `mysqldump agency_cms > ../agency_cms-backup-YYYYMMDD.sql` (keep it outside the repo).
+2. Back up the database: WAMP MySQL → `mysqldump agency_cms > ~/Downloads/backups/agency-cms/agency_cms-backup-YYYYMMDD.sql` (outside the repo).
 3. Record the baseline:
    - `php81 artisan --version` → `Laravel Framework 10.43.0`
-   - `php81 artisan route:list > ../routes-before.txt`
-   - `php81 artisan about > ../about-before.txt`
+   - `php81 artisan route:list > ~/Downloads/backups/agency-cms/routes-before.txt`
+   - `php81 artisan about > ~/Downloads/backups/agency-cms/about-before.txt`
    - `php81 artisan test` → all green (the suite from the review plan, on SQLite in-memory).
 4. Run the smoke checklist (section 5) on `http://agency-cms.test` and note anything already broken, so it isn't blamed on the upgrade.
 
@@ -215,7 +215,7 @@ Use the `laravel/laravel` v13 skeleton as the reference ([compare 10.x…13.x](h
    - add the L13 skeleton keys (`APP_LOCALE`, `APP_FALLBACK_LOCALE`, `APP_FAKER_LOCALE`, `APP_MAINTENANCE_DRIVER`, `BCRYPT_ROUNDS`, `LOG_STACK`, `SESSION_ENCRYPT`, `SESSION_PATH`, `SESSION_DOMAIN`, …). Keep `SESSION_DRIVER=file`, `QUEUE_CONNECTION=sync` and the MySQL settings.
 6. **`composer.json`**: align `scripts` with the L13 skeleton (`pre-package-uninstall`, `test` script). Keep the `autoload.files` entry added by the review plan (R04).
 7. **`phpunit.xml`**: rename the env keys (`CACHE_DRIVER` → `CACHE_STORE`, add `APP_MAINTENANCE_DRIVER`, `BCRYPT_ROUNDS`, `PULSE_ENABLED`/`NIGHTWATCH_ENABLED` as in the skeleton). Keep the SQLite in-memory settings.
-8. `composer dump-autoload` → `php artisan optimize:clear` → `php artisan route:list > ../routes-after.txt`, then diff against `routes-before.txt`. Expected difference: `/up` added. Then `php artisan test` (green) → `php artisan serve` → smoke test.
+8. `composer dump-autoload` → `php artisan optimize:clear` → `php artisan route:list > ~/Downloads/backups/agency-cms/routes-after.txt`, then diff against `~/Downloads/backups/agency-cms/routes-before.txt`. Expected difference: `/up` added. Then `php artisan test` (green) → `php artisan serve` → smoke test.
 
 ### Phase 7 – Livewire 3 → 4 and remove Volt
 
