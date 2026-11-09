@@ -82,7 +82,7 @@ class AdminPagesTest extends TestCase
     }
 
     #[DataProvider('unfinishedSections')]
-    public function test_edit_page_of_an_unknown_item_is_not_found(string $section): void
+    public function test_edit_page_of_an_unknown_item_is_not_found(string $section, string $model): void
     {
         $this->actingAs(User::factory()->create())
             ->get(route("{$section}.edit", 999))
