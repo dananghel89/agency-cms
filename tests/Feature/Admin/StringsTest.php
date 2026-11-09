@@ -5,7 +5,7 @@ namespace Tests\Feature\Admin;
 use App\Models\Translation;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Livewire\Volt\Volt;
+use Livewire\Livewire;
 use Tests\TestCase;
 
 class StringsTest extends TestCase
@@ -21,7 +21,7 @@ class StringsTest extends TestCase
 
     public function test_a_string_can_be_created(): void
     {
-        $component = Volt::test('admin.string')
+        $component = Livewire::test('admin.string')
             ->set('key', 'Contact Us')
             ->set('replace', 'Get in touch')
             ->call('store')
@@ -35,7 +35,7 @@ class StringsTest extends TestCase
 
     public function test_a_string_requires_a_key_and_a_replacement(): void
     {
-        Volt::test('admin.string')
+        Livewire::test('admin.string')
             ->call('store')
             ->assertHasErrors(['key' => 'required', 'replace' => 'required']);
     }
@@ -44,7 +44,7 @@ class StringsTest extends TestCase
     {
         Translation::factory()->create(['key' => 'Contact Us']);
 
-        Volt::test('admin.string')
+        Livewire::test('admin.string')
             ->set('key', 'Contact Us')
             ->set('replace', 'Get in touch')
             ->call('store')
@@ -57,7 +57,7 @@ class StringsTest extends TestCase
     {
         $string = Translation::factory()->create();
 
-        Volt::test('admin.string', ['item' => $string])
+        Livewire::test('admin.string', ['item' => $string])
             ->set('key', 'Our Team')
             ->set('replace', 'The people')
             ->call('update')
@@ -72,7 +72,7 @@ class StringsTest extends TestCase
     {
         $string = Translation::factory()->create(['key' => 'Our Team']);
 
-        Volt::test('admin.string', ['item' => $string])
+        Livewire::test('admin.string', ['item' => $string])
             ->set('replace', 'The people')
             ->call('update')
             ->assertHasNoErrors()
@@ -85,7 +85,7 @@ class StringsTest extends TestCase
     {
         $string = Translation::factory()->create();
 
-        Volt::test('admin.string', ['item' => $string])
+        Livewire::test('admin.string', ['item' => $string])
             ->call('destroy')
             ->assertRedirect(route('strings.index'));
 

@@ -6,7 +6,7 @@ use App\Mail\ContactForm;
 use App\Models\Options;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Mail;
-use Livewire\Volt\Volt;
+use Livewire\Livewire;
 use Tests\TestCase;
 
 class ContactFormTest extends TestCase
@@ -22,7 +22,7 @@ class ContactFormTest extends TestCase
 
     public function test_contact_form_is_validated(): void
     {
-        Volt::test('pages.contact')
+        Livewire::test('pages.contact')
             ->call('submit')
             ->assertHasErrors([
                 'name' => 'required',
@@ -55,7 +55,7 @@ class ContactFormTest extends TestCase
 
     public function test_an_email_typed_with_capitals_is_accepted_and_stored_in_lowercase(): void
     {
-        Volt::test('pages.contact')
+        Livewire::test('pages.contact')
             ->set('name', 'Ana Garcia')
             ->set('email', '  Ana@Example.COM ')
             ->set('phone', '612345678')
@@ -99,7 +99,7 @@ class ContactFormTest extends TestCase
 
     private function submitValidMessage()
     {
-        return Volt::test('pages.contact')
+        return Livewire::test('pages.contact')
             ->set('name', 'Ana Garcia')
             ->set('email', 'ana@example.com')
             ->set('phone', '612345678')

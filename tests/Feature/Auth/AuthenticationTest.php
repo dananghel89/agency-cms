@@ -4,7 +4,7 @@ namespace Tests\Feature\Auth;
 
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Livewire\Volt\Volt;
+use Livewire\Livewire;
 use Tests\TestCase;
 
 class AuthenticationTest extends TestCase
@@ -15,14 +15,14 @@ class AuthenticationTest extends TestCase
     {
         $this->get('/login')
             ->assertOk()
-            ->assertSeeVolt('auth.login');
+            ->assertSeeLivewire('auth.login');
     }
 
     public function test_users_can_authenticate_using_the_login_screen(): void
     {
         $user = User::factory()->create();
 
-        Volt::test('auth.login')
+        Livewire::test('auth.login')
             ->set('form.email', $user->email)
             ->set('form.password', 'password')
             ->call('login')
@@ -36,7 +36,7 @@ class AuthenticationTest extends TestCase
     {
         $user = User::factory()->create(['remember_token' => null]);
 
-        Volt::test('auth.login')
+        Livewire::test('auth.login')
             ->set('form.email', $user->email)
             ->set('form.password', 'password')
             ->set('form.remember', true)
@@ -50,7 +50,7 @@ class AuthenticationTest extends TestCase
     {
         $user = User::factory()->create();
 
-        Volt::test('auth.login')
+        Livewire::test('auth.login')
             ->set('form.email', $user->email)
             ->set('form.password', 'wrong-password')
             ->call('login')
@@ -76,7 +76,7 @@ class AuthenticationTest extends TestCase
     {
         $this->actingAs(User::factory()->create());
 
-        Volt::test('auth.logout')
+        Livewire::test('auth.logout')
             ->call('logout')
             ->assertHasNoErrors()
             ->assertRedirect(route('login'));

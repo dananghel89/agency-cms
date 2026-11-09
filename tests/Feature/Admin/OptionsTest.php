@@ -5,7 +5,7 @@ namespace Tests\Feature\Admin;
 use App\Models\Options;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Livewire\Volt\Volt;
+use Livewire\Livewire;
 use Tests\TestCase;
 
 class OptionsTest extends TestCase
@@ -73,7 +73,7 @@ class OptionsTest extends TestCase
 
     private function optionsComponent()
     {
-        return Volt::test('admin.options', [
+        return Livewire::test('admin.options', [
             'socialNetworks' => Options::socialNetworks(),
         ]);
     }

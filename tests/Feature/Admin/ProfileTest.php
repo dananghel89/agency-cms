@@ -5,7 +5,7 @@ namespace Tests\Feature\Admin;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Hash;
-use Livewire\Volt\Volt;
+use Livewire\Livewire;
 use Tests\TestCase;
 
 class ProfileTest extends TestCase
@@ -18,7 +18,7 @@ class ProfileTest extends TestCase
 
         $this->actingAs($user);
 
-        Volt::test('admin.profile')
+        Livewire::test('admin.profile')
             ->set('name', 'New Name')
             ->set('email', 'new@example.com')
             ->call('updateProfileInformation')
@@ -38,7 +38,7 @@ class ProfileTest extends TestCase
 
         $this->actingAs($user);
 
-        Volt::test('admin.profile')
+        Livewire::test('admin.profile')
             ->set('current_password', 'password')
             ->set('password', 'new-password')
             ->set('password_confirmation', 'new-password')
@@ -55,7 +55,7 @@ class ProfileTest extends TestCase
 
         $this->actingAs($user);
 
-        Volt::test('admin.profile')
+        Livewire::test('admin.profile')
             ->set('current_password', 'wrong-password')
             ->set('password', 'new-password')
             ->set('password_confirmation', 'new-password')

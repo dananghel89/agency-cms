@@ -8,7 +8,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Password;
-use Livewire\Volt\Volt;
+use Livewire\Livewire;
 use Tests\TestCase;
 
 class PasswordResetTest extends TestCase
@@ -19,7 +19,7 @@ class PasswordResetTest extends TestCase
     {
         $this->get('/forgot-password')
             ->assertOk()
-            ->assertSeeVolt('auth.forgot-password');
+            ->assertSeeLivewire('auth.forgot-password');
     }
 
     public function test_reset_password_link_can_be_requested(): void
@@ -28,7 +28,7 @@ class PasswordResetTest extends TestCase
 
         $user = User::factory()->create();
 
-        Volt::test('auth.forgot-password')
+        Livewire::test('auth.forgot-password')
             ->set('email', $user->email)
             ->call('sendPasswordResetLink')
             ->assertHasNoErrors();
@@ -43,7 +43,7 @@ class PasswordResetTest extends TestCase
 
         $this->get('/reset-password/'.$token.'?email='.urlencode($user->email))
             ->assertOk()
-            ->assertSeeVolt('auth.reset-password')
+            ->assertSeeLivewire('auth.reset-password')
             ->assertSee('<form class="user" wire:submit="resetPassword">', false);
     }
 
@@ -52,7 +52,7 @@ class PasswordResetTest extends TestCase
         $user = User::factory()->create();
         $token = Password::createToken($user);
 
-        Volt::test('auth.reset-password', ['token' => $token])
+        Livewire::test('auth.reset-password', ['token' => $token])
             ->set('email', $user->email)
             ->set('password', 'new-password')
             ->set('password_confirmation', 'new-password')
