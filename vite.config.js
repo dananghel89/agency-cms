@@ -12,5 +12,13 @@ export default defineConfig({
             ],
             refresh: true,
         }),
-    ]
+    ],
+    css: {
+        preprocessorOptions: {
+            scss: {
+                quietDeps: true,
+                silenceDeprecations: ['abs-percent', 'color-functions', 'global-builtin', 'if-function', 'import', 'slash-div'],
+            },
+        },
+    },
 });
