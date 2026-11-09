@@ -2,14 +2,14 @@
 
 A small Laravel CMS for a one-page agency website. The public site is a Bootstrap 5 one-pager (services, portfolio, timeline, team, contact form). The admin area is a Bootstrap 4 dashboard for managing the content, the site options and the contact messages.
 
-Built with Laravel 10, Livewire 3 + Volt and Vite.
+Built with Laravel 13, Livewire 4 and Vite 8.
 
 ## Requirements
 
-- PHP 8.1 with `pdo_mysql` and `pdo_sqlite`
+- PHP 8.3 or newer (developed on 8.4) with `pdo_mysql` and `pdo_sqlite`
 - MySQL 8
-- Node.js and npm
-- Composer (a `composer.phar` is included)
+- Node.js 20.19+ or 22.12+ and npm
+- Composer 2
 
 ## Setup
 
@@ -17,7 +17,7 @@ Built with Laravel 10, Livewire 3 + Volt and Vite.
 cp .env.example .env
 # set DB_DATABASE, DB_USERNAME, DB_PASSWORD (and optionally the ADMIN_EMAIL/SEED_ values) in .env
 
-php composer.phar install
+composer install
 php artisan key:generate
 php artisan migrate --seed
 
