@@ -31,7 +31,7 @@ php81 artisan test --filter=AuthenticationTest
 php81 vendor/bin/pint
 ```
 
-Planned work lives in `docs/`, in this order: `project-review-fix-plan.md` (bug fixes, test suite; done), then `theme-licensing-plan.md` (MIT notices and credit for the Start Bootstrap themes, rebrand, self-hosted fonts; done), then `github-migration-plan.md` (move from Bitbucket to a public GitHub repo; done), then `laravel-13-upgrade-plan.md`, then `finish-project-plan.md` (unfinished features, built on Laravel 13 / Livewire 4).
+Planned work lives in `docs/`. These plans are local working notes and are gitignored on purpose; never add them with `git add -f`. The order is: `project-review-fix-plan.md` (bug fixes, test suite; done), then `theme-licensing-plan.md` (MIT notices and credit for the Start Bootstrap themes, rebrand, self-hosted fonts; done), then `github-migration-plan.md` (move from Bitbucket to a public GitHub repo; done), then `laravel-13-upgrade-plan.md`, then `finish-project-plan.md` (unfinished features, built on Laravel 13 / Livewire 4).
 
 The repo is public at `https://github.com/dananghel89/agency-cms` (`origin`, branch `master`). Commits use the GitHub noreply address automatically (`~/.gitconfig` `includeIf` on the GitHub remote), and commit messages are one-line `type: description`.
 
